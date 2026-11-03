@@ -19,6 +19,7 @@ import {
   Sparkles,
   Navigation,
   Info,
+  X,
   ChevronDown,
   ChevronUp,
   Droplets,
@@ -167,7 +168,8 @@ export const PublicMap: React.FC<PublicMapProps> = ({
   isLiveStreaming,
   onToggleLiveStreaming
 }) => {
-  const [isSheetOpen, setIsSheetOpen] = useState(true);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'map' | 'detail'>('map');
   const [activeLayer, setActiveLayer] = useState<ViewMode>('both');
   const [quickFilter, setQuickFilter] = useState<QuickFilterType>('all');
   const [activeBasemap, setActiveBasemap] = useState<BasemapType>('streets');
@@ -511,11 +513,42 @@ export const PublicMap: React.FC<PublicMapProps> = ({
         </div>
       </div>
 
+      {/* 2.5. Mobile View Mode Switcher: Tampilan Peta vs Detail Jalan (Khusus Layar HP < lg) */}
+      <div className="flex lg:hidden bg-neutral-100 p-1 rounded-2xl border border-neutral-200 shadow-inner">
+        <button
+          onClick={() => {
+            setMobileTab('map');
+            setIsSheetOpen(false);
+          }}
+          className={`flex-1 flex items-center justify-center space-x-1.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            mobileTab === 'map'
+              ? 'bg-white text-blue-600 shadow-sm'
+              : 'text-neutral-500 hover:text-neutral-800'
+          }`}
+        >
+          <Compass className="w-3.5 h-3.5" />
+          <span>Tampilan Peta</span>
+        </button>
+        <button
+          onClick={() => setMobileTab('detail')}
+          className={`flex-1 flex items-center justify-center space-x-1.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            mobileTab === 'detail'
+              ? 'bg-white text-blue-600 shadow-sm'
+              : 'text-neutral-500 hover:text-neutral-800'
+          }`}
+        >
+          <Wind className="w-3.5 h-3.5" />
+          <span>Detail Ruas Jalan {selectedRoad ? `(${selectedRoad.name.split('(')[0].trim()})` : ''}</span>
+        </button>
+      </div>
+
       {/* 3. Main Grid: Left Map Canvas + Right Side Detail Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start select-none">
         
-        {/* MAP CANVAS SECTION (7 cols on desktop) */}
-        <div className="lg:col-span-7 relative isolate z-0 w-full h-[540px] sm:h-[600px] lg:h-[660px] rounded-[24px] overflow-hidden border border-neutral-200/80 shadow-md bg-[#E5E5EA]">
+        {/* MAP CANVAS SECTION (7 cols on desktop, full width on mobile) */}
+        <div className={`lg:col-span-7 relative isolate z-0 w-full rounded-[24px] overflow-hidden border border-neutral-200/80 shadow-md bg-[#E5E5EA] ${
+          mobileTab === 'map' ? 'block h-[65vh] sm:h-[600px] lg:h-[660px]' : 'hidden lg:block lg:h-[660px]'
+        }`}>
           
           {/* MapLibre GL Map */}
           <Map
@@ -881,13 +914,65 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             </div>
           )}
 
+          {/* Sleek Floating Peek Pill on Mobile Map (< lg) when Sheet is Closed */}
+          {!isSheetOpen && selectedRoad && mobileTab === 'map' && (
+            <div className="lg:hidden absolute bottom-3 inset-x-3 z-20 pointer-events-none">
+              <div className="pointer-events-auto bg-white/95 backdrop-blur-md p-3 rounded-2xl border border-neutral-200/90 shadow-xl flex items-center justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] font-mono text-neutral-400 font-semibold uppercase truncate">
+                    {selectedRoad.area}
+                  </div>
+                  <div className="text-xs font-bold text-neutral-900 truncate">
+                    {selectedRoad.name}
+                  </div>
+                  <div className="flex items-center space-x-2 mt-0.5 text-xs">
+                    <span className="font-extrabold" style={{ color: getAirQualityMeta(selectedRoad.category).color }}>
+                      {selectedRoad.pm25.toFixed(1)} µg/m³
+                    </span>
+                    <span className="text-neutral-300">•</span>
+                    <span className="font-bold text-neutral-700">{selectedRoad.temperature.toFixed(1)}°C</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-1.5 shrink-0">
+                  <button
+                    onClick={() => setIsSheetOpen(true)}
+                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95"
+                  >
+                    Buka Card
+                  </button>
+                  <button
+                    onClick={() => setMobileTab('detail')}
+                    className="px-2.5 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-xl text-xs font-semibold transition-all"
+                    title="Lihat Detail Lengkap"
+                  >
+                    Detail Penuh
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Mobile Bottom Sheet Overlay (< lg) */}
           <div className="lg:hidden">
             {isSheetOpen && selectedRoad && (
               <div className="absolute inset-x-0 bottom-0 max-h-[75%] bg-white rounded-t-[28px] border-t border-neutral-200 shadow-2xl z-30 transition-all duration-300 overflow-y-auto no-scrollbar">
-                <div className="w-full flex justify-center pt-2 pb-1 sticky top-0 bg-white z-10">
+                {/* Sheet Header with Close Button */}
+                <div className="w-full flex items-center justify-between px-4 pt-3 pb-2 sticky top-0 bg-white/95 backdrop-blur-md border-b border-neutral-100 z-10">
+                  <div className="flex items-center space-x-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-bold text-neutral-800">Detail Ruas Jalan</span>
+                  </div>
                   <div className="w-10 h-1 rounded-full bg-neutral-300" />
+                  <button
+                    onClick={() => setIsSheetOpen(false)}
+                    className="p-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-full transition-colors"
+                    aria-label="Tutup Panel Detail"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
+
                 <div className="p-4">
                   <RoadDetailContent 
                     selectedRoad={selectedRoad} 
@@ -903,17 +988,34 @@ export const PublicMap: React.FC<PublicMapProps> = ({
           </div>
         </div>
 
-        {/* DESKTOP SIDE PANEL (5 cols on lg) */}
-        <div className="hidden lg:block lg:col-span-5 bg-white rounded-[24px] border border-neutral-200/80 p-5 h-[660px] overflow-y-auto no-scrollbar shadow-xs">
+        {/* DETAIL PANEL (Tampil di desktop SELALU, di mobile saat tab 'detail') */}
+        <div className={`space-y-4 ${
+          mobileTab === 'detail' ? 'block' : 'hidden lg:block lg:col-span-5'
+        } lg:col-span-5 bg-white rounded-[24px] border border-neutral-200/80 p-5 ${
+          mobileTab === 'detail' ? 'h-auto' : 'h-[660px] overflow-y-auto no-scrollbar shadow-xs'
+        }`}>
           {selectedRoad ? (
-            <RoadDetailContent 
-              selectedRoad={selectedRoad} 
-              routeComparison={routeComparison} 
-              onUpdateRoad={onUpdateRoad}
-              isSimSettingsOpen={isSimSettingsOpen}
-              setIsSimSettingsOpen={setIsSimSettingsOpen}
-              onOpenDataStudio={onOpenDataStudio}
-            />
+            <>
+              <RoadDetailContent 
+                selectedRoad={selectedRoad} 
+                routeComparison={routeComparison} 
+                onUpdateRoad={onUpdateRoad}
+                isSimSettingsOpen={isSimSettingsOpen}
+                setIsSimSettingsOpen={setIsSimSettingsOpen}
+                onOpenDataStudio={onOpenDataStudio}
+              />
+
+              {/* Tombol Kembali ke Peta untuk Layar Mobile */}
+              <div className="lg:hidden pt-3 border-t border-neutral-100">
+                <button
+                  onClick={() => setMobileTab('map')}
+                  className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-bold rounded-2xl shadow-sm flex items-center justify-center space-x-2 transition-all active:scale-[0.99]"
+                >
+                  <Compass className="w-4 h-4 text-blue-400" />
+                  <span>Kembali ke Tampilan Peta</span>
+                </button>
+              </div>
+            </>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 text-neutral-400">
               <Compass className="w-12 h-12 text-blue-500 mb-3 opacity-60 animate-pulse" />
