@@ -1,0 +1,12 @@
+{
+  "name": "udarajalan",
+  "version": "1.0.0",
+  "description": "UdaraJalan - Platform Pemantauan Kualitas Udara Berbasis Armada Motor Listrik DKI Jakarta (Mobile Native Clean Architecture)",
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "preview": "npm --prefix web run preview"
+  },
+  "author": "UdaraJalan Engineering & Design Team",
+  "license": "UNLICENSED"
+}
