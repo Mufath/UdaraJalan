@@ -6,6 +6,7 @@ import { PublicMap } from './components/PublicMap';
 import { WalletView } from './components/WalletView';
 import { ProfilePrivacy } from './components/ProfilePrivacy';
 import { DataStudioModal } from './components/DataStudioModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { 
   initialDriverState, 
   activeH3Mission, 
@@ -211,48 +212,50 @@ export function App() {
         )}
 
         {activeTab === 'map' && (
-          <div className="space-y-4 pb-24">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-1">
-              <div>
-                <div className="flex items-center space-x-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider font-mono">
-                    Pemantauan Hiper-Lokal Live • {activeCity === 'surabaya' ? 'Kota Surabaya (Utama)' : 'DKI Jakarta'}
-                  </span>
+          <ErrorBoundary fallbackTitle="Peta Warga Sedang Tidak Dapat Dimuat">
+            <div className="space-y-4 pb-24">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-1">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider font-mono">
+                      Pemantauan Hiper-Lokal Live • {activeCity === 'surabaya' ? 'Kota Surabaya (Utama)' : 'DKI Jakarta'}
+                    </span>
+                  </div>
+                  <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-0.5">
+                    Peta Polusi Udara & Suhu Jalanan {activeCity === 'surabaya' ? 'Surabaya' : 'Jakarta'}
+                  </h1>
+                  <p className="text-xs sm:text-sm text-neutral-500 font-normal">
+                    {activeCity === 'surabaya'
+                      ? 'Pemantauan live menyeluruh mencakup 5 wilayah: Surabaya Pusat, Selatan, Timur, Barat, hingga Utara'
+                      : 'Kondisi real-time jalanan Jakarta dari sensor bergerak armada motor listrik'}
+                  </p>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-0.5">
-                  Peta Polusi Udara & Suhu Jalanan {activeCity === 'surabaya' ? 'Surabaya' : 'Jakarta'}
-                </h1>
-                <p className="text-xs sm:text-sm text-neutral-500 font-normal">
-                  {activeCity === 'surabaya'
-                    ? 'Pemantauan live menyeluruh mencakup 5 wilayah: Surabaya Pusat, Selatan, Timur, Barat, hingga Utara'
-                    : 'Kondisi real-time jalanan Jakarta dari sensor bergerak armada motor listrik'}
-                </p>
+
+                {/* Quick Launch Scenario Simulation */}
+                <button
+                  onClick={() => setIsDataStudioOpen(true)}
+                  className="self-start sm:self-auto flex items-center space-x-1.5 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-full text-xs font-bold transition-all shadow-sm active:scale-95"
+                >
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-neutral-300" />
+                  <span>Simulasi Skenario</span>
+                </button>
               </div>
 
-              {/* Quick Launch Scenario Simulation */}
-              <button
-                onClick={() => setIsDataStudioOpen(true)}
-                className="self-start sm:self-auto flex items-center space-x-1.5 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-full text-xs font-bold transition-all shadow-sm active:scale-95"
-              >
-                <SlidersHorizontal className="w-3.5 h-3.5 text-neutral-300" />
-                <span>Simulasi Skenario</span>
-              </button>
+              <PublicMap
+                roads={roads}
+                routeComparison={dynamicRouteComparison}
+                selectedRoad={selectedRoad}
+                onSelectRoad={(road) => setSelectedRoadId(road.id)}
+                onUpdateRoad={handleUpdateRoad}
+                onOpenDataStudio={() => setIsDataStudioOpen(true)}
+                isLiveStreaming={isLiveStreaming}
+                onToggleLiveStreaming={() => setIsLiveStreaming(prev => !prev)}
+                activeCity={activeCity}
+                onCityChange={handleSwitchCity}
+              />
             </div>
-
-            <PublicMap
-              roads={roads}
-              routeComparison={dynamicRouteComparison}
-              selectedRoad={selectedRoad}
-              onSelectRoad={(road) => setSelectedRoadId(road.id)}
-              onUpdateRoad={handleUpdateRoad}
-              onOpenDataStudio={() => setIsDataStudioOpen(true)}
-              isLiveStreaming={isLiveStreaming}
-              onToggleLiveStreaming={() => setIsLiveStreaming(prev => !prev)}
-              activeCity={activeCity}
-              onCityChange={handleSwitchCity}
-            />
-          </div>
+          </ErrorBoundary>
         )}
 
         {activeTab === 'wallet' && (

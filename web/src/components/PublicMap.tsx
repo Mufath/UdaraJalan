@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import type * as GeoJSON from 'geojson';
 import type * as MapLibreGL from 'maplibre-gl';
 import { 
