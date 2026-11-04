@@ -14,15 +14,23 @@ import {
   mockTransactions,
   calculateAirQualityLevel
 } from './data/mockData';
+import {
+  surabayaRoadSegments,
+  surabayaRouteComparison,
+  surabayaH3Mission
+} from './data/surabayaData';
 import { DriverState, RoadSegment, NavigationComparison } from './types';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<'mitra' | 'map' | 'wallet' | 'privacy'>('mitra');
   const [driver, setDriver] = useState<DriverState>(initialDriverState);
   
-  // Interactive Road Data State
-  const [roads, setRoads] = useState<RoadSegment[]>(mockRoadSegments);
-  const [selectedRoadId, setSelectedRoadId] = useState<string>(mockRoadSegments[2]?.id || 'SEG-03');
+  // Active City State: Default to Surabaya as the main focus
+  const [activeCity, setActiveCity] = useState<'surabaya' | 'jakarta'>('surabaya');
+
+  // Interactive Road Data State (Defaults to Surabaya)
+  const [roads, setRoads] = useState<RoadSegment[]>(surabayaRoadSegments);
+  const [selectedRoadId, setSelectedRoadId] = useState<string>('SEG-SBY-04'); // Jl. Raya Darmo (Taman Bungkul)
   
   // Interactive Studio & Live Drift State
   const [isDataStudioOpen, setIsDataStudioOpen] = useState(false);
@@ -33,8 +41,48 @@ export function App() {
     return roads.find(r => r.id === selectedRoadId) || roads[0] || null;
   }, [roads, selectedRoadId]);
 
-  // Dynamically Recalculate Route Comparison when Roads change
+  // City Switcher Handler
+  const handleSwitchCity = (city: 'surabaya' | 'jakarta') => {
+    setActiveCity(city);
+    if (city === 'surabaya') {
+      setRoads(surabayaRoadSegments);
+      setSelectedRoadId('SEG-SBY-04');
+    } else {
+      setRoads(mockRoadSegments);
+      setSelectedRoadId('SEG-03');
+    }
+  };
+
+  // Dynamically Recalculate Route Comparison when Roads or City changes
   const dynamicRouteComparison = useMemo<NavigationComparison>(() => {
+    if (activeCity === 'surabaya') {
+      const aYani = roads.find(r => r.name.includes('Ahmad Yani'));
+      const darmo = roads.find(r => r.name.includes('Darmo'));
+      const basuki = roads.find(r => r.name.includes('Basuki Rahmat'));
+
+      const fastestPM25 = aYani ? aYani.pm25 : 45.2;
+      const cleanPM25 = darmo && basuki 
+        ? (darmo.pm25 * 0.6 + basuki.pm25 * 0.4) 
+        : (darmo ? darmo.pm25 : 16.4);
+
+      const reduction = Math.max(0, Math.min(95, Math.round(((fastestPM25 - cleanPM25) / Math.max(fastestPM25, 1)) * 100)));
+
+      return {
+        ...surabayaRouteComparison,
+        fastestRoute: {
+          ...surabayaRouteComparison.fastestRoute,
+          averagePM25: Number(fastestPM25.toFixed(1))
+        },
+        cleanAirRoute: {
+          ...surabayaRouteComparison.cleanAirRoute,
+          averagePM25: Number(cleanPM25.toFixed(1)),
+          reductionPercentage: reduction,
+          badge: reduction > 0 ? `-${reduction}% paparan polusi` : 'Paparan Seimbang'
+        }
+      };
+    }
+
+    // Jakarta
     const sudirman = roads.find(r => r.name.includes('Sudirman'));
     const gatsu = roads.find(r => r.name.includes('Gatot Subroto'));
     const senopati = roads.find(r => r.name.includes('Senopati'));
@@ -64,7 +112,7 @@ export function App() {
         badge: reduction > 0 ? `-${reduction}% paparan polusi` : 'Paparan Seimbang'
       }
     };
-  }, [roads]);
+  }, [roads, activeCity]);
 
   // Real-time IoT Simulation Drift for both Air Pollution & Street Temperature
   useEffect(() => {
@@ -114,8 +162,13 @@ export function App() {
   };
 
   const handleResetDefaults = () => {
-    setRoads(mockRoadSegments);
-    setSelectedRoadId(mockRoadSegments[2]?.id || 'SEG-03');
+    if (activeCity === 'surabaya') {
+      setRoads(surabayaRoadSegments);
+      setSelectedRoadId('SEG-SBY-04');
+    } else {
+      setRoads(mockRoadSegments);
+      setSelectedRoadId(mockRoadSegments[2]?.id || 'SEG-03');
+    }
   };
 
   // Toggle Anomaly Simulation: Normal Driving vs Mock GPS / 0.0g stationary desk
@@ -150,9 +203,10 @@ export function App() {
         {activeTab === 'mitra' && (
           <MitraDashboard
             driver={driver}
-            mission={activeH3Mission}
+            mission={activeCity === 'surabaya' ? surabayaH3Mission : activeH3Mission}
             onToggleAnomaly={handleToggleAnomaly}
             onNavigateMission={handleNavigateMission}
+            activeCity={activeCity}
           />
         )}
 
@@ -163,14 +217,16 @@ export function App() {
                 <div className="flex items-center space-x-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider font-mono">
-                    Pemantauan Hiper-Lokal Live
+                    Pemantauan Hiper-Lokal Live • {activeCity === 'surabaya' ? 'Kota Surabaya (Utama)' : 'DKI Jakarta'}
                   </span>
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-0.5">
-                  Peta Polusi Udara & Suhu Jalanan
+                  Peta Polusi Udara & Suhu Jalanan {activeCity === 'surabaya' ? 'Surabaya' : 'Jakarta'}
                 </h1>
                 <p className="text-xs sm:text-sm text-neutral-500 font-normal">
-                  Kondisi real-time jalanan Jakarta dari sensor bergerak armada motor listrik
+                  {activeCity === 'surabaya'
+                    ? 'Pemantauan live menyeluruh mencakup 5 wilayah: Surabaya Pusat, Selatan, Timur, Barat, hingga Utara'
+                    : 'Kondisi real-time jalanan Jakarta dari sensor bergerak armada motor listrik'}
                 </p>
               </div>
 
@@ -193,6 +249,8 @@ export function App() {
               onOpenDataStudio={() => setIsDataStudioOpen(true)}
               isLiveStreaming={isLiveStreaming}
               onToggleLiveStreaming={() => setIsLiveStreaming(prev => !prev)}
+              activeCity={activeCity}
+              onCityChange={handleSwitchCity}
             />
           </div>
         )}
@@ -220,6 +278,7 @@ export function App() {
         onSelectRoad={setSelectedRoadId}
         isLiveStreaming={isLiveStreaming}
         onToggleLiveStreaming={() => setIsLiveStreaming(prev => !prev)}
+        activeCity={activeCity}
       />
     </>
   );

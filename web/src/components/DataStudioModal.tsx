@@ -28,6 +28,7 @@ interface DataStudioModalProps {
   onSelectRoad: (id: string) => void;
   isLiveStreaming: boolean;
   onToggleLiveStreaming: () => void;
+  activeCity?: 'surabaya' | 'jakarta';
 }
 
 export const DataStudioModal: React.FC<DataStudioModalProps> = ({
@@ -42,18 +43,19 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
   selectedRoadId,
   onSelectRoad,
   isLiveStreaming,
-  onToggleLiveStreaming
+  onToggleLiveStreaming,
+  activeCity = 'surabaya'
 }) => {
   const [activeTab, setActiveTab] = useState<'presets' | 'editor' | 'add'>('presets');
   const [activeEditorId, setActiveEditorId] = useState<string>(selectedRoadId || roads[0]?.id || '');
   
   // New Road Form State
   const [newRoadName, setNewRoadName] = useState('');
-  const [newRoadArea, setNewRoadArea] = useState('Jakarta Selatan');
+  const [newRoadArea, setNewRoadArea] = useState(activeCity === 'surabaya' ? 'Surabaya Selatan' : 'Jakarta Selatan');
   const [newRoadPM25, setNewRoadPM25] = useState(25);
   const [newRoadTemp, setNewRoadTemp] = useState(31.5);
   const [newRoadHumidity, setNewRoadHumidity] = useState(65);
-  const [newRoadTemplate, setNewRoadTemplate] = useState('casablanca');
+  const [newRoadTemplate, setNewRoadTemplate] = useState(activeCity === 'surabaya' ? 'jemursari' : 'casablanca');
 
   if (!isOpen) return null;
 
@@ -77,7 +79,54 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
     }
   };
 
-  // Pre-configured Jakarta templates for adding new road
+  // Location templates per city
+  const surabayaLocationTemplates = [
+    {
+      id: 'jemursari',
+      name: 'Jl. Raya Jemursari',
+      area: 'Surabaya Selatan',
+      center: [-7.3180, 112.7520] as [number, number],
+      coordinates: [
+        [-7.3150, 112.7420],
+        [-7.3180, 112.7520],
+        [-7.3200, 112.7620]
+      ] as [number, number][]
+    },
+    {
+      id: 'dharmahusada',
+      name: 'Jl. Dharmahusada Indah',
+      area: 'Surabaya Timur',
+      center: [-7.2680, 112.7720] as [number, number],
+      coordinates: [
+        [-7.2650, 112.7620],
+        [-7.2680, 112.7720],
+        [-7.2700, 112.7820]
+      ] as [number, number][]
+    },
+    {
+      id: 'wiyung',
+      name: 'Jl. Raya Wiyung (Menganti)',
+      area: 'Surabaya Barat',
+      center: [-7.3080, 112.6950] as [number, number],
+      coordinates: [
+        [-7.3020, 112.7050],
+        [-7.3080, 112.6950],
+        [-7.3120, 112.6850]
+      ] as [number, number][]
+    },
+    {
+      id: 'kenjeran',
+      name: 'Jl. Kenjeran (Pesisir)',
+      area: 'Surabaya Utara',
+      center: [-7.2420, 112.7780] as [number, number],
+      coordinates: [
+        [-7.2480, 112.7650],
+        [-7.2420, 112.7780],
+        [-7.2380, 112.7890]
+      ] as [number, number][]
+    }
+  ];
+
   const jakartaLocationTemplates = [
     {
       id: 'casablanca',
@@ -139,9 +188,13 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
     }
   ];
 
+  const activeLocationTemplates = activeCity === 'surabaya' 
+    ? surabayaLocationTemplates 
+    : jakartaLocationTemplates;
+
   const handleAddNewRoad = (e: React.FormEvent) => {
     e.preventDefault();
-    const template = jakartaLocationTemplates.find(t => t.id === newRoadTemplate) || jakartaLocationTemplates[0];
+    const template = activeLocationTemplates.find(t => t.id === newRoadTemplate) || activeLocationTemplates[0];
     const newId = `SEG-${String(roads.length + 1).padStart(2, '0')}`;
     
     const newSegment: RoadSegment = {
@@ -537,13 +590,13 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
 
               <div>
                 <label className="block font-medium text-neutral-700 mb-1">
-                  Pilih Koridor Jakarta (Template Presisi):
+                  Pilih Koridor {activeCity === 'surabaya' ? 'Surabaya' : 'Jakarta'} (Template Presisi):
                 </label>
                 <select
                   value={newRoadTemplate}
                   onChange={(e) => {
                     setNewRoadTemplate(e.target.value);
-                    const selected = jakartaLocationTemplates.find(t => t.id === e.target.value);
+                    const selected = activeLocationTemplates.find(t => t.id === e.target.value);
                     if (selected) {
                       setNewRoadName(selected.name);
                       setNewRoadArea(selected.area);
@@ -551,7 +604,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                   }}
                   className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-neutral-900 font-medium focus:outline-none focus:border-neutral-900 shadow-xs"
                 >
-                  {jakartaLocationTemplates.map(t => (
+                  {activeLocationTemplates.map(t => (
                     <option key={t.id} value={t.id}>
                       {t.name} ({t.area})
                     </option>

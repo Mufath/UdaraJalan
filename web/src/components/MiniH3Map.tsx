@@ -8,34 +8,61 @@ import {
   MarkerContent 
 } from '@/components/ui/map';
 import { h3HexagonCoordinates } from '../data/mockData';
+import { surabayaH3HexagonCoordinates } from '../data/surabayaData';
 
 interface MiniH3MapProps {
   onNavigate?: () => void;
+  activeCity?: 'surabaya' | 'jakarta';
 }
 
-export const MiniH3Map: React.FC<MiniH3MapProps> = ({ onNavigate }) => {
+export const MiniH3Map: React.FC<MiniH3MapProps> = ({ onNavigate, activeCity = 'surabaya' }) => {
   // Convert [lat, lng] to [lng, lat] GeoJSON polygon
-  const h3GeoJson = useMemo<GeoJSON.Feature<GeoJSON.Polygon>>(() => ({
-    type: "Feature",
-    properties: { id: "h3-sudirman", bonus: "1.5x" },
-    geometry: {
-      type: "Polygon",
-      coordinates: [
-        [
-          ...h3HexagonCoordinates.map(([lat, lng]) => [lng, lat] as [number, number]),
-          [h3HexagonCoordinates[0][1], h3HexagonCoordinates[0][0]] // close ring
+  const h3GeoJson = useMemo<GeoJSON.Feature<GeoJSON.Polygon>>(() => {
+    const coords = activeCity === 'surabaya' ? surabayaH3HexagonCoordinates : h3HexagonCoordinates;
+    return {
+      type: "Feature",
+      properties: { id: activeCity === 'surabaya' ? "h3-bungkul" : "h3-sudirman", bonus: "2.0x" },
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            ...coords.map(([lat, lng]) => [lng, lat] as [number, number]),
+            [coords[0][1], coords[0][0]] // close ring
+          ]
         ]
-      ]
-    }
-  }), []);
+      }
+    };
+  }, [activeCity]);
 
   // Mission path in [lng, lat]
-  const missionPathLngLat: [number, number][] = [
-    [106.8215, -6.2135],
-    [106.8228, -6.2078],
-    [106.8234, -6.2015],
-    [106.8230, -6.1952]
-  ];
+  const missionPathLngLat: [number, number][] = useMemo(() => {
+    if (activeCity === 'surabaya') {
+      return [
+        [112.7380, -7.3000],
+        [112.7385, -7.2950],
+        [112.7390, -7.2915],
+        [112.7395, -7.2850]
+      ];
+    }
+    return [
+      [106.8215, -6.2135],
+      [106.8228, -6.2078],
+      [106.8234, -6.2015],
+      [106.8230, -6.1952]
+    ];
+  }, [activeCity]);
+
+  const mapCenter: [number, number] = activeCity === 'surabaya'
+    ? [112.7390, -7.2915]
+    : [106.8220, -6.2050];
+
+  const vehicleCoord: [number, number] = activeCity === 'surabaya'
+    ? [112.7388, -7.2935]
+    : [106.8218, -6.2120];
+
+  const targetCoord: [number, number] = activeCity === 'surabaya'
+    ? [112.7395, -7.2870]
+    : [106.8232, -6.1985];
 
   return (
     <div 
@@ -45,7 +72,7 @@ export const MiniH3Map: React.FC<MiniH3MapProps> = ({ onNavigate }) => {
     >
       <div className="w-full h-full pointer-events-none">
         <Map
-          center={[106.8220, -6.2050]}
+          center={mapCenter}
           zoom={14}
           interactive={false}
           attributionControl={false}
@@ -76,7 +103,7 @@ export const MiniH3Map: React.FC<MiniH3MapProps> = ({ onNavigate }) => {
           />
 
           {/* EV Vehicle Live Position Marker */}
-          <MapMarker longitude={106.8218} latitude={-6.2120}>
+          <MapMarker longitude={vehicleCoord[0]} latitude={vehicleCoord[1]}>
             <MarkerContent>
               <div className="w-3.5 h-3.5 rounded-full bg-neutral-900 border-2 border-white shadow-md flex items-center justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
@@ -85,7 +112,7 @@ export const MiniH3Map: React.FC<MiniH3MapProps> = ({ onNavigate }) => {
           </MapMarker>
 
           {/* Mission Target Pin */}
-          <MapMarker longitude={106.8232} latitude={-6.1985}>
+          <MapMarker longitude={targetCoord[0]} latitude={targetCoord[1]}>
             <MarkerContent>
               <div className="w-3.5 h-3.5 rounded-full bg-amber-600 border-2 border-white shadow-md flex items-center justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-white" />

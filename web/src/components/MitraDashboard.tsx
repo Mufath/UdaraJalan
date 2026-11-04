@@ -40,13 +40,15 @@ interface MitraDashboardProps {
   mission: H3Mission;
   onToggleAnomaly: () => void;
   onNavigateMission: () => void;
+  activeCity?: 'surabaya' | 'jakarta';
 }
 
 export const MitraDashboard: React.FC<MitraDashboardProps> = ({
   driver,
   mission,
   onToggleAnomaly,
-  onNavigateMission
+  onNavigateMission,
+  activeCity = 'surabaya'
 }) => {
   const [showH3Explanation, setShowH3Explanation] = useState(false);
   const [isCleaningFan, setIsCleaningFan] = useState(false);
@@ -459,7 +461,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
             <div>
               {/* Map Canvas with rounded borders */}
               <div className="rounded-2xl overflow-hidden border border-neutral-200/80 mb-3 shadow-inner">
-                <MiniH3Map onNavigate={onNavigateMission} />
+                <MiniH3Map activeCity={activeCity} onNavigate={onNavigateMission} />
               </div>
 
               {/* Location Info Pill Bar */}

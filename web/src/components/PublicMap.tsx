@@ -36,6 +36,7 @@ import {
 } from '@/components/ui/map';
 import { RoadSegment, NavigationComparison, AirQualityLevel } from '../types';
 import { h3HexagonCoordinates, calculateAirQualityLevel } from '../data/mockData';
+import { surabayaH3HexagonCoordinates } from '../data/surabayaData';
 import { 
   getAirQualityMeta, 
   getTemperatureMeta, 
@@ -51,6 +52,8 @@ interface PublicMapProps {
   onOpenDataStudio: () => void;
   isLiveStreaming: boolean;
   onToggleLiveStreaming: () => void;
+  activeCity?: 'surabaya' | 'jakarta';
+  onCityChange?: (city: 'surabaya' | 'jakarta') => void;
 }
 
 type BasemapType = 'streets' | 'osm' | 'satellite';
@@ -166,7 +169,9 @@ export const PublicMap: React.FC<PublicMapProps> = ({
   onUpdateRoad,
   onOpenDataStudio,
   isLiveStreaming,
-  onToggleLiveStreaming
+  onToggleLiveStreaming,
+  activeCity = 'surabaya',
+  onCityChange
 }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [mobileTab, setMobileTab] = useState<'map' | 'detail'>('map');
@@ -228,37 +233,90 @@ export const PublicMap: React.FC<PublicMapProps> = ({
     });
   }, [roads, searchQuery, quickFilter]);
 
-  // H3 Hexagon as GeoJSON Polygon
-  const h3GeoJson = useMemo<GeoJSON.Feature<GeoJSON.Polygon>>(() => ({
-    type: "Feature",
-    properties: { id: "h3-sudirman", bonus: "1.5x" },
-    geometry: {
-      type: "Polygon",
-      coordinates: [
-        [
-          ...h3HexagonCoordinates.map(([lat, lng]) => [lng, lat] as [number, number]),
-          [h3HexagonCoordinates[0][1], h3HexagonCoordinates[0][0]]
+  // H3 Hexagon as GeoJSON Polygon (Dynamic for Surabaya or Jakarta)
+  const h3GeoJson = useMemo<GeoJSON.Feature<GeoJSON.Polygon>>(() => {
+    const coords = activeCity === 'surabaya' 
+      ? surabayaH3HexagonCoordinates 
+      : h3HexagonCoordinates;
+    return {
+      type: "Feature",
+      properties: { 
+        id: activeCity === 'surabaya' ? "h3-bungkul" : "h3-sudirman", 
+        bonus: "2.0x" 
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            ...coords.map(([lat, lng]) => [lng, lat] as [number, number]),
+            [coords[0][1], coords[0][0]]
+          ]
         ]
-      ]
+      }
+    };
+  }, [activeCity]);
+
+  // Clean Route & Fastest Route in [lng, lat] format (Dynamic per City)
+  const cleanRouteCoordsLngLat: [number, number][] = useMemo(() => {
+    if (activeCity === 'surabaya') {
+      return [
+        [112.7330, -7.3425], // Waru / Sidoarjo Gateway
+        [112.7380, -7.3180], // Wonokromo
+        [112.7391, -7.2925], // Taman Bungkul / Raya Darmo
+        [112.7405, -7.2725], // Basuki Rahmat
+        [112.7396, -7.2590]  // Tunjungan
+      ];
     }
-  }), []);
+    return [
+      [106.8320, -6.1950], // Menteng
+      [106.8280, -6.2040],
+      [106.8150, -6.2160],
+      [106.8080, -6.2280], // Senopati
+      [106.8040, -6.2330]
+    ];
+  }, [activeCity]);
 
-  // Clean Route & Fastest Route in [lng, lat] format
-  const cleanRouteCoordsLngLat: [number, number][] = useMemo(() => [
-    [106.8320, -6.1950], // Menteng
-    [106.8280, -6.2040],
-    [106.8150, -6.2160],
-    [106.8080, -6.2280], // Senopati
-    [106.8040, -6.2330]
-  ], []);
+  const fastestRouteCoordsLngLat: [number, number][] = useMemo(() => {
+    if (activeCity === 'surabaya') {
+      return [
+        [112.7330, -7.3425], // Waru
+        [112.7345, -7.3230], // Ahmad Yani
+        [112.7390, -7.3035], // Wonokromo Flyover
+        [112.7340, -7.2830], // Diponegoro
+        [112.7396, -7.2590]  // Tunjungan
+      ];
+    }
+    return [
+      [106.8320, -6.1950],
+      [106.8220, -6.2080],
+      [106.8180, -6.2200],
+      [106.8240, -6.2300], // Gatot Subroto
+      [106.8040, -6.2330]
+    ];
+  }, [activeCity]);
 
-  const fastestRouteCoordsLngLat: [number, number][] = useMemo(() => [
-    [106.8320, -6.1950],
-    [106.8220, -6.2080],
-    [106.8180, -6.2200],
-    [106.8240, -6.2300], // Gatot Subroto
-    [106.8040, -6.2330]
-  ], []);
+  // Center coordinates & zoom per city
+  const cityDefaultView = useMemo(() => {
+    if (activeCity === 'surabaya') {
+      return { center: [112.7420, -7.2750] as [number, number], zoom: 12.3 };
+    }
+    return { center: [106.8200, -6.2120] as [number, number], zoom: 13 };
+  }, [activeCity]);
+
+  // Auto-fly when activeCity changes
+  const initialLoadRef = useRef(true);
+  useEffect(() => {
+    if (initialLoadRef.current) {
+      initialLoadRef.current = false;
+      return;
+    }
+    if (!mapRef.current) return;
+    mapRef.current.flyTo({
+      center: cityDefaultView.center,
+      zoom: cityDefaultView.zoom,
+      duration: 1200
+    });
+  }, [activeCity, cityDefaultView]);
 
   // Center map on searched road
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -297,20 +355,74 @@ export const PublicMap: React.FC<PublicMapProps> = ({
   const handleResetView = () => {
     if (!mapRef.current) return;
     mapRef.current.flyTo({
-      center: [106.8200, -6.2120],
-      zoom: 13,
+      center: cityDefaultView.center,
+      zoom: cityDefaultView.zoom,
       duration: 1000
     });
   };
 
+  const originCoord: [number, number] = activeCity === 'surabaya' 
+    ? [112.7330, -7.3425] // Bundaran Waru
+    : [106.8320, -6.1950]; // Menteng
+
+  const destCoord: [number, number] = activeCity === 'surabaya'
+    ? [112.7396, -7.2590] // Tunjungan
+    : [106.8040, -6.2330]; // Senopati
+
+  const evCoord: [number, number] = activeCity === 'surabaya'
+    ? [112.7391, -7.2925] // Taman Bungkul / Darmo
+    : [106.8218, -6.2120]; // Sudirman
+
   return (
     <div className="space-y-3.5">
       
-      {/* 1. CITIZEN LIVE SUMMARY BAR: Kondisi Udara & Suhu Jakarta Hari Ini */}
-      <div className="bg-white rounded-2xl border border-neutral-200/80 p-3.5 sm:p-4 shadow-sm">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+      {/* 1. CITIZEN LIVE SUMMARY BAR: Kondisi Udara & Suhu Kota */}
+      <div className="bg-white rounded-2xl border border-neutral-200/80 p-3.5 sm:p-4 shadow-sm space-y-3">
+        {/* Top Row: City Switcher & Live Telemetry Status */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 border-b border-neutral-100">
           
-          {/* Left: Real-time Live Telemetry Status */}
+          {/* City Switcher Pill: Surabaya (Utama) vs DKI Jakarta */}
+          <div className="flex items-center space-x-2">
+            <span className="text-xs font-bold text-neutral-500 hidden sm:inline">Kota:</span>
+            {onCityChange && (
+              <div className="flex items-center p-1 bg-neutral-100 rounded-full border border-neutral-200 text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => onCityChange('surabaya')}
+                  className={`px-3 py-1 rounded-full flex items-center space-x-1.5 transition-all ${
+                    activeCity === 'surabaya'
+                      ? 'bg-blue-600 text-white shadow-xs font-bold'
+                      : 'text-neutral-600 hover:text-neutral-900'
+                  }`}
+                >
+                  <span>📍 Surabaya</span>
+                  <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${activeCity === 'surabaya' ? 'bg-white/25 text-white' : 'bg-blue-100 text-blue-700'}`}>
+                    Utama
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onCityChange('jakarta')}
+                  className={`px-3 py-1 rounded-full flex items-center space-x-1.5 transition-all ${
+                    activeCity === 'jakarta'
+                      ? 'bg-blue-600 text-white shadow-xs font-bold'
+                      : 'text-neutral-600 hover:text-neutral-900'
+                  }`}
+                >
+                  <span>📍 DKI Jakarta</span>
+                </button>
+              </div>
+            )}
+            
+            {activeCity === 'surabaya' && (
+              <span className="hidden md:inline-flex items-center space-x-1 text-[11px] font-medium text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span>Cakupan 5 Wilayah Lengkap (Pusat, Selatan, Timur, Barat, Utara)</span>
+              </span>
+            )}
+          </div>
+
+          {/* Real-time Live Telemetry Status */}
           <div className="flex items-center space-x-3 shrink-0">
             <button
               onClick={onToggleLiveStreaming}
@@ -336,16 +448,20 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               )}
             </button>
 
-            <span className="text-xs text-neutral-500 hidden sm:inline">
-              Data terhubung langsung ke sensor motor listrik di jalan raya.
+            <span className="text-xs text-neutral-500 hidden lg:inline">
+              Sensor armada motor listrik jalan raya
             </span>
           </div>
+        </div>
 
-          {/* Right: City-wide Stats Summary Pills */}
+        {/* Bottom Row: City-wide Stats Summary Pills */}
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {/* Avg PM2.5 */}
             <div className="flex items-center space-x-1.5 bg-neutral-50 px-2.5 py-1 rounded-full border border-neutral-200 font-mono">
-              <span className="text-neutral-500 font-sans">Polusi DKI:</span>
+              <span className="text-neutral-500 font-sans">
+                Polusi {activeCity === 'surabaya' ? 'Surabaya' : 'DKI'}:
+              </span>
               <span 
                 className="font-extrabold"
                 style={{ color: getAirQualityMeta(cityOverview.overallCategory).color }}
@@ -359,7 +475,9 @@ export const PublicMap: React.FC<PublicMapProps> = ({
 
             {/* Avg Temp */}
             <div className="flex items-center space-x-1.5 bg-neutral-50 px-2.5 py-1 rounded-full border border-neutral-200 font-mono">
-              <span className="text-neutral-500 font-sans">Suhu Jalan:</span>
+              <span className="text-neutral-500 font-sans">
+                Suhu Jalan {activeCity === 'surabaya' ? 'Surabaya' : 'DKI'}:
+              </span>
               <span 
                 className="font-extrabold"
                 style={{ color: getTemperatureMeta(cityOverview.avgTemp).color }}
@@ -370,12 +488,14 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 ({getTemperatureMeta(cityOverview.avgTemp).shortLabel})
               </span>
             </div>
+          </div>
 
+          <div className="flex flex-wrap items-center gap-2 text-xs">
             {/* Cleanest Road Quick Pill */}
             {cityOverview.cleanestRoad && (
               <button
                 onClick={() => handleSelectAndFly(cityOverview.cleanestRoad!)}
-                className="hidden sm:flex items-center space-x-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200 transition-colors"
+                className="flex items-center space-x-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200 transition-colors"
                 title="Lihat jalan dengan udara terbersih saat ini"
               >
                 <span>Terbersih:</span>
@@ -388,7 +508,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             {cityOverview.mostPollutedRoad && (
               <button
                 onClick={() => handleSelectAndFly(cityOverview.mostPollutedRoad!)}
-                className="hidden md:flex items-center space-x-1 bg-rose-50 hover:bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full border border-rose-200 transition-colors"
+                className="flex items-center space-x-1 bg-rose-50 hover:bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full border border-rose-200 transition-colors"
                 title="Lihat jalan dengan polusi tertinggi saat ini"
               >
                 <span>Paling Berpolusi:</span>
@@ -553,8 +673,8 @@ export const PublicMap: React.FC<PublicMapProps> = ({
           {/* MapLibre GL Map */}
           <Map
             ref={mapRef}
-            center={[106.8200, -6.2120]}
-            zoom={13}
+            center={cityDefaultView.center}
+            zoom={cityDefaultView.zoom}
             theme={mapTheme}
             styles={currentMapStyles}
             className="w-full h-full"
@@ -601,7 +721,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 />
 
                 {/* Marker A (Origin) */}
-                <MapMarker longitude={106.8320} latitude={-6.1950}>
+                <MapMarker longitude={originCoord[0]} latitude={originCoord[1]}>
                   <MarkerContent>
                     <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold text-xs border-2 border-white shadow-lg">
                       A
@@ -610,7 +730,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 </MapMarker>
 
                 {/* Marker B (Destination) */}
-                <MapMarker longitude={106.8040} latitude={-6.2330}>
+                <MapMarker longitude={destCoord[0]} latitude={destCoord[1]}>
                   <MarkerContent>
                     <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-extrabold text-xs border-2 border-white shadow-lg">
                       B
@@ -762,7 +882,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
 
             {/* Live Telemetry EV Fleet Position Marker */}
             {isLiveStreaming && (
-              <MapMarker longitude={106.8218} latitude={-6.2120}>
+              <MapMarker longitude={evCoord[0]} latitude={evCoord[1]}>
                 <MarkerContent>
                   <div className="relative flex items-center justify-center">
                     <span className="absolute w-8 h-8 rounded-full bg-blue-500 opacity-40 animate-ping" />
@@ -783,7 +903,11 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari jalan: Sudirman, Senopati, Kuningan, Thamrin..."
+                placeholder={
+                  activeCity === 'surabaya' 
+                    ? "Cari jalan: Tunjungan, Darmo, A. Yani, MERR, Perak, Pakuwon..." 
+                    : "Cari jalan: Sudirman, Senopati, Kuningan, Thamrin..."
+                }
                 className="w-full bg-transparent text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none"
               />
               {searchQuery && (
