@@ -658,88 +658,89 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
          ======================================================== */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         
-        {/* CARD 8: Sesi Shift Monitoring (Apple Timer Orange Widget) (4 Cols) */}
+        {/* CARD 8: Sesi Shift Monitoring (Apple Timer Widget) (4 Cols) */}
         <div className="md:col-span-4 flex flex-col">
           <span className="widget-overline mb-1.5">
             <Clock className="w-3 h-3 text-neutral-400" />
             Sesi Shift & Timer Telemetri
           </span>
-          <div className="rounded-[28px] p-5 bg-[#f97316] text-white shadow-lg shadow-orange-950/10 flex flex-col justify-between flex-1 transition-all duration-300">
+          <div className="rounded-[28px] p-5 bg-[#ea580c] text-white shadow-lg shadow-orange-950/20 flex flex-col justify-between flex-1 transition-all duration-300">
             <div>
               {/* Header with In-Progress Indicator */}
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-semibold text-orange-100 uppercase tracking-wider">
-                  Shift Monitoring
-                </span>
-                <span className="flex items-center space-x-1.5 px-2.5 py-0.5 bg-white/20 backdrop-blur-md text-white rounded-full text-xs font-semibold">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-1.5 text-white/95">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span className="text-xs font-bold tracking-tight">Shift Telemetri</span>
+                </div>
+                <span className="flex items-center space-x-1.5 px-2.5 py-0.5 bg-white/20 backdrop-blur-md text-white rounded-full text-[11px] font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                   <span>{isShiftActive ? 'Berjalan' : 'Dijeda'}</span>
                 </span>
               </div>
 
-              {/* Circular Clock Display */}
+              {/* Circular Clock Display with Generous Breathing Room */}
               <div className="flex flex-col items-center justify-center py-2">
-                <div className="relative w-36 h-36 flex items-center justify-center">
+                <div className="relative w-44 h-44 flex items-center justify-center">
                   {/* SVG Circular Progress Ring */}
                   <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                     <circle
                       cx="50"
                       cy="50"
-                      r="42"
-                      stroke="rgba(255, 255, 255, 0.25)"
-                      strokeWidth="5.5"
+                      r="41"
+                      stroke="rgba(255, 255, 255, 0.22)"
+                      strokeWidth="3.5"
                       fill="none"
                     />
                     <circle
                       cx="50"
                       cy="50"
-                      r="42"
+                      r="41"
                       stroke="#ffffff"
-                      strokeWidth="5.5"
-                      strokeDasharray="264"
-                      strokeDashoffset={isShiftActive ? "66" : "150"}
+                      strokeWidth="3.5"
+                      strokeDasharray="257.6"
+                      strokeDashoffset={isShiftActive ? "64" : "140"}
                       strokeLinecap="round"
                       fill="none"
                       className="transition-all duration-1000 ease-out"
                     />
                   </svg>
                   
-                  {/* Digital Clock in San Francisco / sans font with tabular nums */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-3xl font-extrabold tracking-tight tabular-nums text-white">
+                  {/* Digital Clock with Balanced Padding */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
+                    <span className="text-[26px] font-black tracking-tight tabular-nums text-white leading-none">
                       {formatShiftTime(shiftSeconds)}
                     </span>
-                    <span className="text-[11px] text-orange-100 mt-0.5 font-medium">Waktu Operasi</span>
+                    <span className="text-[11px] text-white/80 font-medium mt-1">Waktu Operasi</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Shift Sub-Metrics & Pause Button */}
-            <div className="pt-3 border-t border-white/20 space-y-2">
+            <div className="pt-3 border-t border-white/20 space-y-2.5">
               <div className="grid grid-cols-2 gap-2 text-center text-xs">
-                <div className="bg-white/15 backdrop-blur-sm p-2.5 rounded-2xl">
-                  <div className="text-orange-100 text-[10px] font-medium">Tervalidasi</div>
+                <div className="bg-white/15 backdrop-blur-md p-2.5 rounded-2xl border border-white/10">
+                  <div className="text-white/80 text-[10px] font-medium">Tervalidasi</div>
                   <div className="font-extrabold text-white text-base mt-0.5 tabular-nums">{driver.validatedKm} km</div>
                 </div>
-                <div className="bg-white/15 backdrop-blur-sm p-2.5 rounded-2xl">
-                  <div className="text-orange-100 text-[10px] font-medium">Laju Lacak</div>
+                <div className="bg-white/15 backdrop-blur-md p-2.5 rounded-2xl border border-white/10">
+                  <div className="text-white/80 text-[10px] font-medium">Laju Lacak</div>
                   <div className="font-extrabold text-white text-base mt-0.5 tabular-nums">{driver.currentSpeed} km/j</div>
                 </div>
               </div>
 
               <button
                 onClick={() => setIsShiftActive(!isShiftActive)}
-                className="w-full py-2.5 rounded-2xl bg-white hover:bg-orange-50 text-orange-950 font-bold text-xs shadow-md transition-all active:scale-[0.98] flex items-center justify-center space-x-1.5"
+                className="w-full py-3 rounded-2xl bg-white hover:bg-neutral-50 text-neutral-900 font-bold text-xs shadow-sm transition-all active:scale-[0.98] flex items-center justify-center space-x-2"
               >
                 {isShiftActive ? (
                   <>
-                    <Pause className="w-3.5 h-3.5" />
+                    <Pause className="w-3.5 h-3.5 text-neutral-900" />
                     <span>Jeda Sesi Shift</span>
                   </>
                 ) : (
                   <>
-                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <Play className="w-3.5 h-3.5 fill-current text-neutral-900" />
                     <span>Lanjutkan Shift</span>
                   </>
                 )}

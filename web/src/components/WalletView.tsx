@@ -179,19 +179,19 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
             </div>
 
             {/* Middle: Dual Standard vs H3 Rate Breakdown */}
-            <div className="grid grid-cols-2 gap-3 text-xs font-mono mb-5">
-              <div className="bg-neutral-50 p-3 rounded-2xl border border-neutral-200/60">
-                <div className="text-neutral-500 text-[10px] font-semibold">Tarif Dasar Standar</div>
-                <div className="font-bold text-neutral-900 text-sm mt-0.5">Rp120 / km</div>
-                <div className="text-[10px] text-neutral-400 mt-1">Perjalanan tervalidasi</div>
+            <div className="grid grid-cols-2 gap-3 text-xs mb-5">
+              <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-100">
+                <div className="text-neutral-400 text-[10px] font-semibold">Tarif Dasar Standar</div>
+                <div className="font-extrabold text-neutral-900 text-sm mt-0.5 font-mono">Rp120 / km</div>
+                <div className="text-[10px] text-neutral-400 mt-1 font-mono">Perjalanan tervalidasi</div>
               </div>
-              <div className="bg-emerald-50/80 p-3 rounded-2xl border border-emerald-200/80">
+              <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-100">
                 <div className="flex items-center justify-between">
-                  <span className="text-emerald-900 text-[10px] font-semibold">Prioritas Spasial</span>
-                  <span className="px-1.5 py-0.5 bg-emerald-200 text-emerald-900 rounded font-mono text-[9px] font-bold">2.0x</span>
+                  <span className="text-neutral-500 text-[10px] font-semibold">Prioritas Spasial</span>
+                  <span className="px-1.5 py-0.5 bg-neutral-900 text-white rounded font-mono text-[9px] font-bold">2.0x</span>
                 </div>
-                <div className="font-bold text-emerald-800 text-sm mt-0.5">Rp240 / km</div>
-                <div className="text-[10px] text-emerald-700 mt-1">Koridor Sudirman - Dukuh Atas</div>
+                <div className="font-extrabold text-emerald-600 text-sm mt-0.5 font-mono">Rp240 / km</div>
+                <div className="text-[10px] text-neutral-500 mt-1 font-mono truncate">Koridor Sudirman - Dukuh Atas</div>
               </div>
             </div>
 

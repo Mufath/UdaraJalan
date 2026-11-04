@@ -187,7 +187,6 @@ export const PublicMap: React.FC<PublicMapProps> = ({
   const [showRoutes, setShowRoutes] = useState(false);
   const [showH3Mission, setShowH3Mission] = useState(false);
   const [showBadges, setShowBadges] = useState(true);
-  const [badgeDensity, setBadgeDensity] = useState<'clean' | 'all'>('clean');
   const [showLegend, setShowLegend] = useState(true);
   const [isSimSettingsOpen, setIsSimSettingsOpen] = useState(false);
 
@@ -406,13 +405,6 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 </button>
               </div>
             )}
-            
-            {activeCity === 'surabaya' && (
-              <span className="hidden md:inline-flex items-center space-x-1 text-[11px] font-medium text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                <span>Cakupan 5 Wilayah Lengkap (Pusat, Selatan, Timur, Barat, Utara)</span>
-              </span>
-            )}
           </div>
 
           {/* Real-time Live Telemetry Status */}
@@ -451,7 +443,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {/* Avg PM2.5 */}
-            <div className="flex items-center space-x-1.5 bg-neutral-50 px-2.5 py-1 rounded-full border border-neutral-200 font-mono">
+            <div className="flex items-center space-x-1.5 bg-neutral-100 px-3 py-1 rounded-full font-mono">
               <span className="text-neutral-500 font-sans">
                 Polusi {activeCity === 'surabaya' ? 'Surabaya' : 'DKI'}:
               </span>
@@ -467,7 +459,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             </div>
 
             {/* Avg Temp */}
-            <div className="flex items-center space-x-1.5 bg-neutral-50 px-2.5 py-1 rounded-full border border-neutral-200 font-mono">
+            <div className="flex items-center space-x-1.5 bg-neutral-100 px-3 py-1 rounded-full font-mono">
               <span className="text-neutral-500 font-sans">
                 Suhu Jalan {activeCity === 'surabaya' ? 'Surabaya' : 'DKI'}:
               </span>
@@ -488,12 +480,13 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             {cityOverview.cleanestRoad && (
               <button
                 onClick={() => handleSelectAndFly(cityOverview.cleanestRoad!)}
-                className="flex items-center space-x-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200 transition-colors"
+                className="flex items-center space-x-1.5 bg-neutral-100 hover:bg-neutral-200/80 text-neutral-800 px-3 py-1 rounded-full text-xs font-medium transition-colors"
                 title="Lihat jalan dengan udara terbersih saat ini"
               >
-                <span>Terbersih:</span>
-                <span className="font-bold underline">{cityOverview.cleanestRoad.name.split('(')[0].trim()}</span>
-                <span className="font-mono font-bold">({cityOverview.cleanestRoad.pm25} µg)</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-neutral-500">Terbersih:</span>
+                <span className="font-bold text-neutral-900">{cityOverview.cleanestRoad.name.split('(')[0].trim()}</span>
+                <span className="font-mono font-bold text-emerald-700">({cityOverview.cleanestRoad.pm25} µg)</span>
               </button>
             )}
 
@@ -501,12 +494,13 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             {cityOverview.mostPollutedRoad && (
               <button
                 onClick={() => handleSelectAndFly(cityOverview.mostPollutedRoad!)}
-                className="flex items-center space-x-1 bg-rose-50 hover:bg-rose-100 text-rose-800 px-2.5 py-1 rounded-full border border-rose-200 transition-colors"
+                className="flex items-center space-x-1.5 bg-neutral-100 hover:bg-neutral-200/80 text-neutral-800 px-3 py-1 rounded-full text-xs font-medium transition-colors"
                 title="Lihat jalan dengan polusi tertinggi saat ini"
               >
-                <span>Paling Berpolusi:</span>
-                <span className="font-bold underline">{cityOverview.mostPollutedRoad.name.split('(')[0].trim()}</span>
-                <span className="font-mono font-bold">({cityOverview.mostPollutedRoad.pm25} µg)</span>
+                <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                <span className="text-neutral-500">Paling Berpolusi:</span>
+                <span className="font-bold text-neutral-900">{cityOverview.mostPollutedRoad.name.split('(')[0].trim()}</span>
+                <span className="font-mono font-bold text-rose-700">({cityOverview.mostPollutedRoad.pm25} µg)</span>
               </button>
             )}
           </div>
@@ -582,8 +576,8 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               onClick={() => setQuickFilter('clean')}
               className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center space-x-1.5 ${
                 quickFilter === 'clean'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200'
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -594,8 +588,8 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               onClick={() => setQuickFilter('polluted')}
               className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center space-x-1.5 ${
                 quickFilter === 'polluted'
-                  ? 'bg-rose-600 text-white'
-                  : 'bg-rose-50 text-rose-800 hover:bg-rose-100 border border-rose-200'
+                  ? 'bg-rose-600 text-white shadow-xs'
+                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-rose-500" />
@@ -606,8 +600,8 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               onClick={() => setQuickFilter('cool')}
               className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center space-x-1.5 ${
                 quickFilter === 'cool'
-                  ? 'bg-sky-600 text-white'
-                  : 'bg-sky-50 text-sky-800 hover:bg-sky-100 border border-sky-200'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
               }`}
             >
               <Thermometer className="w-3.5 h-3.5 text-sky-500" />
@@ -628,20 +622,6 @@ export const PublicMap: React.FC<PublicMapProps> = ({
           >
             <Navigation className="w-3.5 h-3.5" />
             <span>{showRoutes ? 'Tutup Rute' : 'Bandingkan Rute'}</span>
-          </button>
-
-          {/* Toggle Kerapatan Label: Peta Rapi vs Semua Angka */}
-          <button
-            type="button"
-            onClick={() => setBadgeDensity(prev => prev === 'clean' ? 'all' : 'clean')}
-            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center space-x-1.5 ${
-              badgeDensity === 'clean'
-                ? 'bg-emerald-700 text-white shadow-xs'
-                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 border border-neutral-200'
-            }`}
-            title={badgeDensity === 'clean' ? "Mode Rapi (bebas tumpuk, pin kompak + detail terpilih)" : "Mode Semua Label Angka"}
-          >
-            <span>{badgeDensity === 'clean' ? '✨ Peta Rapi' : '🏷️ Semua Label'}</span>
           </button>
 
           {/* Theme Switcher (Terang / Gelap) */}
@@ -720,33 +700,54 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               />
             )}
 
-            {/* Clean Air vs Fastest Route Corridors */}
+            {/* Clean Air vs Fastest Route Corridors (Hanya aktif saat Bandingkan Rute diaktifkan) */}
             {showRoutes && (
               <>
                 {/* Clean Air Green Corridor */}
+                <MapRoute
+                  id="route-clean-air-casing"
+                  coordinates={cleanRouteCoordsLngLat}
+                  color="#ffffff"
+                  width={9}
+                  opacity={0.8}
+                />
                 <MapRoute
                   id="route-clean-air"
                   coordinates={cleanRouteCoordsLngLat}
                   color="#10b981"
                   width={6}
-                  opacity={0.9}
-                  dashArray={[3, 4]}
+                  opacity={0.95}
                 />
+
                 {/* Fastest Arterial Route */}
+                <MapRoute
+                  id="route-fastest-casing"
+                  coordinates={fastestRouteCoordsLngLat}
+                  color="#ffffff"
+                  width={7}
+                  opacity={0.8}
+                />
                 <MapRoute
                   id="route-fastest"
                   coordinates={fastestRouteCoordsLngLat}
                   color="#f97316"
-                  width={4}
-                  opacity={0.75}
-                  dashArray={[4, 4]}
+                  width={4.5}
+                  opacity={0.85}
                 />
 
                 {/* Marker A (Origin) */}
                 <MapMarker longitude={originCoord[0]} latitude={originCoord[1]}>
                   <MarkerContent>
-                    <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold text-xs border-2 border-white shadow-lg">
-                      A
+                    <div 
+                      className="group relative cursor-pointer select-none"
+                      title={activeCity === 'surabaya' ? 'Titik A: Bundaran Waru' : 'Titik A: Menteng'}
+                    >
+                      <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold text-xs border-2 border-white shadow-xl ring-2 ring-blue-400">
+                        A
+                      </div>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex whitespace-nowrap bg-neutral-900 text-white text-[10px] px-2 py-0.5 rounded shadow-lg pointer-events-none z-30">
+                        {activeCity === 'surabaya' ? 'Titik A (Waru)' : 'Titik A (Menteng)'}
+                      </div>
                     </div>
                   </MarkerContent>
                 </MapMarker>
@@ -754,8 +755,16 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 {/* Marker B (Destination) */}
                 <MapMarker longitude={destCoord[0]} latitude={destCoord[1]}>
                   <MarkerContent>
-                    <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-extrabold text-xs border-2 border-white shadow-lg">
-                      B
+                    <div 
+                      className="group relative cursor-pointer select-none"
+                      title={activeCity === 'surabaya' ? 'Titik B: Jl. Tunjungan' : 'Titik B: Senopati'}
+                    >
+                      <div className="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-extrabold text-xs border-2 border-white shadow-xl ring-2 ring-emerald-400">
+                        B
+                      </div>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex whitespace-nowrap bg-neutral-900 text-white text-[10px] px-2 py-0.5 rounded shadow-lg pointer-events-none z-30">
+                        {activeCity === 'surabaya' ? 'Titik B (Tunjungan)' : 'Titik B (Senopati)'}
+                      </div>
                     </div>
                   </MarkerContent>
                 </MapMarker>
@@ -811,133 +820,64 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               );
             })}
 
-            {/* 1. HERO CALLOUT: Khusus Ruas Jalan yang Sedang Dipilih (Fokus Utama, Bebas Tumpukan) */}
+            {/* 1. PIN KHUSUS RUAS JALAN TERPILIH (Pin 32px dengan Indikator Cincin Aktif) */}
             {selectedRoad && showBadges && (
               <MapMarker
-                key={`selected-callout-${selectedRoad.id}`}
+                key={`selected-pin-${selectedRoad.id}`}
                 longitude={selectedRoad.center[1]}
                 latitude={selectedRoad.center[0]}
-                onClick={() => {
-                  setIsSheetOpen(true);
-                }}
+                onClick={() => setIsSheetOpen(true)}
               >
                 <MarkerContent>
-                  <div className="relative group cursor-pointer z-30 -translate-y-2 select-none">
+                  <div className="relative group cursor-pointer z-30 select-none -translate-y-1">
+                    <span 
+                      className="absolute -inset-1.5 rounded-full animate-ping opacity-35"
+                      style={{ backgroundColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
+                    />
                     <div 
-                      className="flex items-center space-x-2.5 bg-white/95 backdrop-blur-md text-neutral-900 rounded-2xl px-3.5 py-2 shadow-2xl border-2 ring-4 ring-blue-500/25 transition-transform hover:scale-105 active:scale-95"
+                      className="w-8 h-8 rounded-full bg-white shadow-xl border-3 ring-4 ring-blue-500/30 flex items-center justify-center font-mono font-black text-xs text-neutral-900 transition-transform hover:scale-110 active:scale-95"
                       style={{ borderColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
                     >
-                      <span 
-                        className="w-3 h-3 rounded-full shrink-0 shadow-sm animate-pulse"
-                        style={{ backgroundColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
-                      />
-                      <div className="flex flex-col text-left">
-                        <div className="flex items-center space-x-1.5">
-                          <span className="text-xs font-black text-neutral-900 leading-tight">
-                            {selectedRoad.name.split('(')[0].trim()}
-                          </span>
-                          <span 
-                            className="text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase tracking-wider"
-                            style={{ 
-                              backgroundColor: `${getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color}20`, 
-                              color: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color 
-                            }}
-                          >
-                            {getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).shortLabel}
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-2 text-[11px] font-mono mt-0.5">
-                          <span className="font-extrabold text-neutral-900">
-                            {Math.round(selectedRoad.pm25)} <span className="font-sans font-normal text-neutral-500 text-[10px]">µg/m³</span>
-                          </span>
-                          <span className="text-neutral-300">|</span>
-                          <span className="font-bold text-amber-700">
-                            {selectedRoad.temperature.toFixed(0)}°C
-                          </span>
-                          <span className="text-neutral-400 font-sans text-[10px]">
-                            • {selectedRoad.area}
-                          </span>
-                        </div>
-                      </div>
+                      {Math.round(selectedRoad.pm25)}
                     </div>
                   </div>
                 </MarkerContent>
               </MapMarker>
             )}
 
-            {/* 2. COMPACT PINS / FULL BADGES: Untuk Ruas Lainnya (Bebas Bentrok & Tidak Menumpuk) */}
+            {/* 2. PIN RUAS LAINNYA (Pin Lingkaran 26px Bersih, Zero-Overlap) */}
             {showBadges && filteredRoads
               .filter(road => road.id !== selectedRoad?.id)
               .map((road) => {
                 const pmMeta = getAirQualityMeta(road.category, road.pm25);
-                const tempMeta = getTemperatureMeta(road.temperature);
 
-                // MODE RAPI (DEFAULT): Pin Lingkaran Kompak 28px (Tidak Saling Menumpuk)
-                if (badgeDensity === 'clean') {
-                  return (
-                    <MapMarker
-                      key={`pin-${road.id}`}
-                      longitude={road.center[1]}
-                      latitude={road.center[0]}
-                      onClick={() => {
-                        onSelectRoad(road);
-                        setIsSheetOpen(true);
-                      }}
-                    >
-                      <MarkerContent>
-                        <div 
-                          className="group relative cursor-pointer z-10 transition-transform hover:scale-125 hover:z-20 active:scale-95 select-none"
-                          title={`${road.name}: ${Math.round(road.pm25)} µg/m³ • ${road.temperature.toFixed(0)}°C`}
-                        >
-                          <div 
-                            className="w-7 h-7 rounded-full bg-white shadow-md border-2 flex items-center justify-center font-mono font-extrabold text-[10px] text-neutral-800 transition-all hover:shadow-lg hover:border-blue-500"
-                            style={{ borderColor: pmMeta.color }}
-                          >
-                            {Math.round(road.pm25)}
-                          </div>
-                          {/* Mini Hover Tooltip */}
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center whitespace-nowrap bg-neutral-900 text-white text-[10px] px-2 py-1 rounded-lg shadow-xl pointer-events-none z-30 font-sans">
-                            <span className="font-bold">{road.name.split('(')[0].trim()}</span>
-                            <span className="text-neutral-300 font-mono text-[9px]">
-                              {Math.round(road.pm25)} µg/m³ • {road.temperature.toFixed(0)}°C
-                            </span>
-                          </div>
-                        </div>
-                      </MarkerContent>
-                    </MapMarker>
-                  );
-                }
-
-                // MODE SEMUA LABEL: Tampilkan Pill Lengkap (Untuk saat pengguna ingin melihat semua angka)
                 return (
                   <MapMarker
-                    key={`badge-${road.id}`}
+                    key={`pin-${road.id}`}
                     longitude={road.center[1]}
                     latitude={road.center[0]}
                     onClick={() => {
                       onSelectRoad(road);
-                      setIsSheetOpen(true);
                     }}
                   >
                     <MarkerContent>
                       <div 
-                        className="flex items-center space-x-1.5 bg-white text-neutral-900 rounded-full px-2.5 py-1 text-xs font-mono shadow-md border-2 cursor-pointer transition-all hover:scale-110 active:scale-95 z-10"
-                        style={{ borderColor: pmMeta.color }}
+                        className="group relative cursor-pointer z-10 transition-transform hover:scale-125 hover:z-25 active:scale-95 select-none"
+                        title={`${road.name}: ${Math.round(road.pm25)} µg/m³ • ${road.temperature.toFixed(0)}°C`}
                       >
-                        <span 
-                          className="w-2 h-2 rounded-full shrink-0" 
-                          style={{ backgroundColor: pmMeta.color }} 
-                        />
-                        <span className="font-extrabold text-neutral-900">
-                          {Math.round(road.pm25)} <span className="text-[9px] font-normal text-neutral-500 font-sans">µg</span>
-                        </span>
-                        <span className="text-neutral-300 font-light">|</span>
-                        <span 
-                          className="font-extrabold"
-                          style={{ color: tempMeta.color }}
+                        <div 
+                          className="w-6.5 h-6.5 rounded-full bg-white shadow-md border-2 flex items-center justify-center font-mono font-extrabold text-[10px] text-neutral-800 transition-all hover:shadow-lg hover:border-blue-500"
+                          style={{ borderColor: pmMeta.color }}
                         >
-                          {road.temperature.toFixed(0)}°C
-                        </span>
+                          {Math.round(road.pm25)}
+                        </div>
+                        {/* Mini Hover Tooltip */}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center whitespace-nowrap bg-neutral-900 text-white text-[10px] px-2 py-1 rounded-lg shadow-xl pointer-events-none z-30 font-sans">
+                          <span className="font-bold">{road.name.split('(')[0].trim()}</span>
+                          <span className="text-neutral-300 font-mono text-[9px]">
+                            {Math.round(road.pm25)} µg/m³ • {road.temperature.toFixed(0)}°C
+                          </span>
+                        </div>
                       </div>
                     </MarkerContent>
                   </MapMarker>
@@ -991,6 +931,89 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               )}
             </form>
           </div>
+
+          {/* Top Route Comparison Explanation Banner */}
+          {showRoutes && (
+            <div className="absolute top-16 inset-x-3 sm:inset-x-auto sm:left-4 z-20 pointer-events-auto max-w-sm">
+              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 px-3.5 shadow-xl border border-neutral-200/90 flex items-center justify-between gap-2.5 text-xs">
+                <div className="flex items-center space-x-2.5 min-w-0">
+                  <Navigation className="w-4 h-4 text-blue-600 shrink-0" />
+                  <div className="flex flex-col min-w-0">
+                    <span className="font-extrabold text-neutral-900 leading-tight">Simulasi Rute Perjalanan</span>
+                    <div className="flex items-center space-x-2 text-[10px] mt-0.5">
+                      <span className="flex items-center space-x-1 text-emerald-700 font-bold shrink-0">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                        <span>Rute Hijau (-64% Polusi)</span>
+                      </span>
+                      <span className="text-neutral-300">•</span>
+                      <span className="flex items-center space-x-1 text-orange-700 font-bold shrink-0">
+                        <span className="w-2 h-2 rounded-full bg-orange-500" />
+                        <span>Rute Cepat</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowRoutes(false)}
+                  className="p-1 hover:bg-neutral-100 rounded-full text-neutral-400 hover:text-neutral-700 shrink-0"
+                  title="Tutup perbandingan rute"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* FLOATING SELECTED ROAD HUD CARD (Docked above bottom controls, never overlaps pins!) */}
+          {selectedRoad && (
+            <div className="hidden lg:block absolute bottom-16 left-4 max-w-sm z-20 pointer-events-auto">
+              <div 
+                className="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-2xl border-2 ring-4 ring-black/5 flex items-center justify-between gap-3 transition-all"
+                style={{ borderColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
+              >
+                <div className="flex items-center space-x-3 min-w-0">
+                  <div 
+                    className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-white font-mono font-bold shrink-0 shadow-xs"
+                    style={{ backgroundColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
+                  >
+                    <span className="text-xs font-black leading-none">{Math.round(selectedRoad.pm25)}</span>
+                    <span className="text-[8px] font-sans font-normal opacity-90 mt-0.5">µg/m³</span>
+                  </div>
+                  
+                  <div className="flex flex-col min-w-0">
+                    <div className="flex items-center space-x-1.5">
+                      <h4 className="text-xs font-extrabold text-neutral-900 truncate">
+                        {selectedRoad.name.split('(')[0].trim()}
+                      </h4>
+                      <span 
+                        className="text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase shrink-0"
+                        style={{ 
+                          backgroundColor: `${getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color}20`, 
+                          color: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color 
+                        }}
+                      >
+                        {getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).shortLabel}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2 text-[11px] font-mono text-neutral-600 mt-0.5 truncate">
+                      <span className="text-amber-700 font-bold shrink-0">🌡️ {selectedRoad.temperature.toFixed(0)}°C</span>
+                      <span className="text-neutral-300">•</span>
+                      <span className="text-neutral-500 font-sans text-[10px] truncate">{selectedRoad.area}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-1 shrink-0">
+                  <button
+                    onClick={() => setIsSheetOpen(true)}
+                    className="px-2.5 py-1.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-[11px] font-bold transition-all shadow-xs active:scale-95"
+                  >
+                    Detail
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Bottom Left: Re-center & Map Style Pill */}
           <div className="absolute bottom-4 left-4 z-20 flex items-center space-x-2">
@@ -1257,7 +1280,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
           <span className="text-[11px] font-mono text-neutral-500 font-semibold uppercase tracking-wider">
             {selectedRoad.area}
           </span>
-          <div className="flex items-center space-x-1.5 bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full text-[10px] font-bold border border-emerald-200">
+          <div className="flex items-center space-x-1.5 bg-neutral-100 text-neutral-700 px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Live • Baru Saja</span>
           </div>
