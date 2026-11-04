@@ -36,7 +36,11 @@ import {
 } from '@/components/ui/map';
 import { RoadSegment, NavigationComparison, AirQualityLevel } from '../types';
 import { h3HexagonCoordinates, calculateAirQualityLevel } from '../data/mockData';
-import { surabayaH3HexagonCoordinates } from '../data/surabayaData';
+import { 
+  surabayaH3HexagonCoordinates,
+  surabayaCleanRouteCoordinates,
+  surabayaFastestRouteCoordinates
+} from '../data/surabayaData';
 import { 
   getAirQualityMeta, 
   getTemperatureMeta, 
@@ -180,9 +184,10 @@ export const PublicMap: React.FC<PublicMapProps> = ({
   const [activeBasemap, setActiveBasemap] = useState<BasemapType>('streets');
   const [mapTheme, setMapTheme] = useState<'light' | 'dark'>('light');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showRoutes, setShowRoutes] = useState(true);
+  const [showRoutes, setShowRoutes] = useState(false);
   const [showH3Mission, setShowH3Mission] = useState(false);
   const [showBadges, setShowBadges] = useState(true);
+  const [badgeDensity, setBadgeDensity] = useState<'clean' | 'all'>('clean');
   const [showLegend, setShowLegend] = useState(true);
   const [isSimSettingsOpen, setIsSimSettingsOpen] = useState(false);
 
@@ -259,13 +264,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
   // Clean Route & Fastest Route in [lng, lat] format (Dynamic per City)
   const cleanRouteCoordsLngLat: [number, number][] = useMemo(() => {
     if (activeCity === 'surabaya') {
-      return [
-        [112.7330, -7.3425], // Waru / Sidoarjo Gateway
-        [112.7380, -7.3180], // Wonokromo
-        [112.7391, -7.2925], // Taman Bungkul / Raya Darmo
-        [112.7405, -7.2725], // Basuki Rahmat
-        [112.7396, -7.2590]  // Tunjungan
-      ];
+      return surabayaCleanRouteCoordinates;
     }
     return [
       [106.8320, -6.1950], // Menteng
@@ -278,13 +277,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
 
   const fastestRouteCoordsLngLat: [number, number][] = useMemo(() => {
     if (activeCity === 'surabaya') {
-      return [
-        [112.7330, -7.3425], // Waru
-        [112.7345, -7.3230], // Ahmad Yani
-        [112.7390, -7.3035], // Wonokromo Flyover
-        [112.7340, -7.2830], // Diponegoro
-        [112.7396, -7.2590]  // Tunjungan
-      ];
+      return surabayaFastestRouteCoordinates;
     }
     return [
       [106.8320, -6.1950],
@@ -362,15 +355,15 @@ export const PublicMap: React.FC<PublicMapProps> = ({
   };
 
   const originCoord: [number, number] = activeCity === 'surabaya' 
-    ? [112.7330, -7.3425] // Bundaran Waru
+    ? [112.7315, -7.3425] // Bundaran Waru
     : [106.8320, -6.1950]; // Menteng
 
   const destCoord: [number, number] = activeCity === 'surabaya'
-    ? [112.7396, -7.2590] // Tunjungan
+    ? [112.7408, -7.2600] // Jl. Tunjungan
     : [106.8040, -6.2330]; // Senopati
 
   const evCoord: [number, number] = activeCity === 'surabaya'
-    ? [112.7391, -7.2925] // Taman Bungkul / Darmo
+    ? [112.7350, -7.2840] // Armada IoT di koridor Diponegoro (tidak menumpuk dengan Bungkul)
     : [106.8218, -6.2120]; // Sudirman
 
   return (
@@ -622,6 +615,35 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             </button>
           </div>
 
+          {/* Toggle Bandingkan Rute */}
+          <button
+            type="button"
+            onClick={() => setShowRoutes(prev => !prev)}
+            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center space-x-1.5 ${
+              showRoutes
+                ? 'bg-blue-600 text-white shadow-xs'
+                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 border border-neutral-200'
+            }`}
+            title="Tampilkan perbandingan rute terbersih vs rute tercepat"
+          >
+            <Navigation className="w-3.5 h-3.5" />
+            <span>{showRoutes ? 'Tutup Rute' : 'Bandingkan Rute'}</span>
+          </button>
+
+          {/* Toggle Kerapatan Label: Peta Rapi vs Semua Angka */}
+          <button
+            type="button"
+            onClick={() => setBadgeDensity(prev => prev === 'clean' ? 'all' : 'clean')}
+            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center space-x-1.5 ${
+              badgeDensity === 'clean'
+                ? 'bg-emerald-700 text-white shadow-xs'
+                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 border border-neutral-200'
+            }`}
+            title={badgeDensity === 'clean' ? "Mode Rapi (bebas tumpuk, pin kompak + detail terpilih)" : "Mode Semua Label Angka"}
+          >
+            <span>{badgeDensity === 'clean' ? '✨ Peta Rapi' : '🏷️ Semua Label'}</span>
+          </button>
+
           {/* Theme Switcher (Terang / Gelap) */}
           <button
             onClick={() => setMapTheme(prev => prev === 'light' ? 'dark' : 'light')}
@@ -740,7 +762,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               </>
             )}
 
-            {/* Road Polylines on Map */}
+            {/* Road Polylines on Map (100% Precise OpenStreetMap Geometry) */}
             {filteredRoads.map((road) => {
               const isSelected = selectedRoad?.id === road.id;
               const pmMeta = getAirQualityMeta(road.category, road.pm25);
@@ -758,18 +780,27 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                       id={`road-halo-${road.id}`}
                       coordinates={lngLatCoords}
                       color={color}
-                      width={14}
+                      width={16}
                       opacity={0.35}
                     />
                   )}
+
+                  {/* High-Contrast Casing for Visual Separation from Base Map */}
+                  <MapRoute
+                    id={`road-casing-${road.id}`}
+                    coordinates={lngLatCoords}
+                    color={mapTheme === 'dark' ? '#0f172a' : '#ffffff'}
+                    width={isSelected ? 11 : 7.5}
+                    opacity={0.85}
+                  />
 
                   {/* Main Road Route Polyline */}
                   <MapRoute
                     id={`road-${road.id}`}
                     coordinates={lngLatCoords}
                     color={color}
-                    width={isSelected ? 8 : 5}
-                    opacity={isSelected ? 1.0 : 0.85}
+                    width={isSelected ? 7.5 : 4.8}
+                    opacity={isSelected ? 1.0 : 0.92}
                     interactive={true}
                     onClick={() => {
                       onSelectRoad(road);
@@ -780,31 +811,117 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               );
             })}
 
-            {/* Clear, Human-Friendly Road Metric Badges */}
-            {showBadges && filteredRoads.map((road) => {
-              const isSelected = selectedRoad?.id === road.id;
-              const pmMeta = getAirQualityMeta(road.category, road.pm25);
-              const tempMeta = getTemperatureMeta(road.temperature);
+            {/* 1. HERO CALLOUT: Khusus Ruas Jalan yang Sedang Dipilih (Fokus Utama, Bebas Tumpukan) */}
+            {selectedRoad && showBadges && (
+              <MapMarker
+                key={`selected-callout-${selectedRoad.id}`}
+                longitude={selectedRoad.center[1]}
+                latitude={selectedRoad.center[0]}
+                onClick={() => {
+                  setIsSheetOpen(true);
+                }}
+              >
+                <MarkerContent>
+                  <div className="relative group cursor-pointer z-30 -translate-y-2 select-none">
+                    <div 
+                      className="flex items-center space-x-2.5 bg-white/95 backdrop-blur-md text-neutral-900 rounded-2xl px-3.5 py-2 shadow-2xl border-2 ring-4 ring-blue-500/25 transition-transform hover:scale-105 active:scale-95"
+                      style={{ borderColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
+                    >
+                      <span 
+                        className="w-3 h-3 rounded-full shrink-0 shadow-sm animate-pulse"
+                        style={{ backgroundColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
+                      />
+                      <div className="flex flex-col text-left">
+                        <div className="flex items-center space-x-1.5">
+                          <span className="text-xs font-black text-neutral-900 leading-tight">
+                            {selectedRoad.name.split('(')[0].trim()}
+                          </span>
+                          <span 
+                            className="text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase tracking-wider"
+                            style={{ 
+                              backgroundColor: `${getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color}20`, 
+                              color: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color 
+                            }}
+                          >
+                            {getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).shortLabel}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2 text-[11px] font-mono mt-0.5">
+                          <span className="font-extrabold text-neutral-900">
+                            {Math.round(selectedRoad.pm25)} <span className="font-sans font-normal text-neutral-500 text-[10px]">µg/m³</span>
+                          </span>
+                          <span className="text-neutral-300">|</span>
+                          <span className="font-bold text-amber-700">
+                            {selectedRoad.temperature.toFixed(0)}°C
+                          </span>
+                          <span className="text-neutral-400 font-sans text-[10px]">
+                            • {selectedRoad.area}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </MarkerContent>
+              </MapMarker>
+            )}
 
-              return (
-                <MapMarker
-                  key={`badge-${road.id}`}
-                  longitude={road.center[1]}
-                  latitude={road.center[0]}
-                  onClick={() => {
-                    onSelectRoad(road);
-                    setIsSheetOpen(true);
-                  }}
-                >
-                  <MarkerContent>
-                    {/* Mode 1: COMBINED (POLUSI + SUHU) - PALING JELAS UNTUK ORANG AWAM */}
-                    {activeLayer === 'both' && (
+            {/* 2. COMPACT PINS / FULL BADGES: Untuk Ruas Lainnya (Bebas Bentrok & Tidak Menumpuk) */}
+            {showBadges && filteredRoads
+              .filter(road => road.id !== selectedRoad?.id)
+              .map((road) => {
+                const pmMeta = getAirQualityMeta(road.category, road.pm25);
+                const tempMeta = getTemperatureMeta(road.temperature);
+
+                // MODE RAPI (DEFAULT): Pin Lingkaran Kompak 28px (Tidak Saling Menumpuk)
+                if (badgeDensity === 'clean') {
+                  return (
+                    <MapMarker
+                      key={`pin-${road.id}`}
+                      longitude={road.center[1]}
+                      latitude={road.center[0]}
+                      onClick={() => {
+                        onSelectRoad(road);
+                        setIsSheetOpen(true);
+                      }}
+                    >
+                      <MarkerContent>
+                        <div 
+                          className="group relative cursor-pointer z-10 transition-transform hover:scale-125 hover:z-20 active:scale-95 select-none"
+                          title={`${road.name}: ${Math.round(road.pm25)} µg/m³ • ${road.temperature.toFixed(0)}°C`}
+                        >
+                          <div 
+                            className="w-7 h-7 rounded-full bg-white shadow-md border-2 flex items-center justify-center font-mono font-extrabold text-[10px] text-neutral-800 transition-all hover:shadow-lg hover:border-blue-500"
+                            style={{ borderColor: pmMeta.color }}
+                          >
+                            {Math.round(road.pm25)}
+                          </div>
+                          {/* Mini Hover Tooltip */}
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center whitespace-nowrap bg-neutral-900 text-white text-[10px] px-2 py-1 rounded-lg shadow-xl pointer-events-none z-30 font-sans">
+                            <span className="font-bold">{road.name.split('(')[0].trim()}</span>
+                            <span className="text-neutral-300 font-mono text-[9px]">
+                              {Math.round(road.pm25)} µg/m³ • {road.temperature.toFixed(0)}°C
+                            </span>
+                          </div>
+                        </div>
+                      </MarkerContent>
+                    </MapMarker>
+                  );
+                }
+
+                // MODE SEMUA LABEL: Tampilkan Pill Lengkap (Untuk saat pengguna ingin melihat semua angka)
+                return (
+                  <MapMarker
+                    key={`badge-${road.id}`}
+                    longitude={road.center[1]}
+                    latitude={road.center[0]}
+                    onClick={() => {
+                      onSelectRoad(road);
+                      setIsSheetOpen(true);
+                    }}
+                  >
+                    <MarkerContent>
                       <div 
-                        className={`flex items-center space-x-1.5 bg-white text-neutral-900 rounded-full px-2.5 py-1 text-xs font-mono shadow-md border-2 cursor-pointer transition-all hover:scale-110 active:scale-95 ${
-                          isSelected 
-                            ? 'ring-4 ring-blue-500/30 scale-110 shadow-xl z-30 font-bold' 
-                            : 'z-10'
-                        }`}
+                        className="flex items-center space-x-1.5 bg-white text-neutral-900 rounded-full px-2.5 py-1 text-xs font-mono shadow-md border-2 cursor-pointer transition-all hover:scale-110 active:scale-95 z-10"
                         style={{ borderColor: pmMeta.color }}
                       >
                         <span 
@@ -822,72 +939,25 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                           {road.temperature.toFixed(0)}°C
                         </span>
                       </div>
-                    )}
-
-                    {/* Mode 2: AIR POLLUTION (PM2.5) */}
-                    {activeLayer === 'pm25' && (
-                      <div 
-                        className={`flex items-center space-x-1.5 bg-white text-neutral-900 rounded-full px-2.5 py-1 text-xs font-mono shadow-md border-2 cursor-pointer transition-all hover:scale-110 active:scale-95 ${
-                          isSelected 
-                            ? 'ring-4 ring-blue-500/30 scale-110 shadow-xl z-30 font-bold' 
-                            : 'z-10'
-                        }`}
-                        style={{ borderColor: pmMeta.color }}
-                      >
-                        <span 
-                          className="w-2 h-2 rounded-full animate-pulse shrink-0" 
-                          style={{ backgroundColor: pmMeta.color }} 
-                        />
-                        <span className="font-extrabold text-neutral-900">
-                          {Math.round(road.pm25)} <span className="text-[9px] font-normal text-neutral-500 font-sans">µg/m³</span>
-                        </span>
-                        <span 
-                          className="text-[10px] font-bold font-sans px-1.5 py-0.5 rounded-full"
-                          style={{ backgroundColor: `${pmMeta.color}18`, color: pmMeta.color }}
-                        >
-                          {pmMeta.shortLabel}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Mode 3: STREET TEMPERATURE (°C) */}
-                    {activeLayer === 'temp' && (
-                      <div 
-                        className={`flex items-center space-x-1.5 bg-white text-neutral-900 rounded-full px-2.5 py-1 text-xs font-mono shadow-md border-2 cursor-pointer transition-all hover:scale-110 active:scale-95 ${
-                          isSelected 
-                            ? 'ring-4 ring-amber-500/30 scale-110 shadow-xl z-30 font-bold' 
-                            : 'z-10'
-                        }`}
-                        style={{ borderColor: tempMeta.color }}
-                      >
-                        <span 
-                          className="w-2 h-2 rounded-full shrink-0" 
-                          style={{ backgroundColor: tempMeta.color }} 
-                        />
-                        <span className="font-extrabold text-neutral-900">
-                          {road.temperature.toFixed(0)}°C
-                        </span>
-                        <span 
-                          className="text-[10px] font-bold font-sans px-1.5 py-0.5 rounded-full"
-                          style={{ backgroundColor: `${tempMeta.color}18`, color: tempMeta.color }}
-                        >
-                          {tempMeta.shortLabel}
-                        </span>
-                      </div>
-                    )}
-                  </MarkerContent>
-                </MapMarker>
-              );
-            })}
+                    </MarkerContent>
+                  </MapMarker>
+                );
+              })}
 
             {/* Live Telemetry EV Fleet Position Marker */}
             {isLiveStreaming && (
               <MapMarker longitude={evCoord[0]} latitude={evCoord[1]}>
                 <MarkerContent>
-                  <div className="relative flex items-center justify-center">
-                    <span className="absolute w-8 h-8 rounded-full bg-blue-500 opacity-40 animate-ping" />
-                    <div className="w-6 h-6 rounded-full bg-blue-600 text-white border-2 border-white shadow-xl flex items-center justify-center text-xs font-bold">
+                  <div 
+                    className="relative flex items-center justify-center select-none cursor-pointer group"
+                    title="Armada Motor Listrik Pengukur Polusi Real-Time"
+                  >
+                    <span className="absolute w-7 h-7 rounded-full bg-blue-500 opacity-30 animate-ping" />
+                    <div className="w-5 h-5 rounded-full bg-blue-600 text-white border-2 border-white shadow-lg flex items-center justify-center text-[10px] font-bold">
                       ⚡
+                    </div>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 hidden group-hover:flex whitespace-nowrap bg-blue-900 text-white text-[9px] px-1.5 py-0.5 rounded shadow font-sans">
+                      Armada Sensor IoT
                     </div>
                   </div>
                 </MarkerContent>
@@ -927,7 +997,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             <button
               onClick={handleResetView}
               className="p-2.5 bg-white/95 backdrop-blur-md hover:bg-white text-blue-600 rounded-full shadow-lg border border-neutral-200/80 transition-all active:scale-95"
-              title="Pusatkan kembali ke Jakarta"
+              title={`Pusatkan kembali ke ${activeCity === 'surabaya' ? 'Surabaya' : 'DKI Jakarta'}`}
             >
               <Crosshair className="w-4 h-4" />
             </button>
