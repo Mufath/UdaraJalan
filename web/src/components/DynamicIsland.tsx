@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bike, ShieldCheck, AlertTriangle, BatteryMedium, Wind } from 'lucide-react';
+import { Bike, ShieldCheck, AlertTriangle, BatteryMedium, Wind, X } from 'lucide-react';
 import { DriverState } from '../types';
 
 interface DynamicIslandProps {
@@ -67,9 +67,21 @@ export const DynamicIsland: React.FC<DynamicIslandProps> = ({ driver, onToggleAn
                   <div className="text-[13px] font-semibold text-white">6.2 Km Tervalidasi</div>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-[11px] text-neutral-400">Tarif</div>
-                <div className="text-[12px] tabular-nums font-medium text-emerald-400">+Rp120/km</div>
+              <div className="flex items-center space-x-2.5">
+                <div className="text-right">
+                  <div className="text-[10px] text-neutral-400">Tarif</div>
+                  <div className="text-[12px] tabular-nums font-semibold text-emerald-400">+Rp120/km</div>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsExpanded(false);
+                  }}
+                  className="p-1 rounded-full bg-white/10 hover:bg-white/20 text-neutral-400 hover:text-white transition-colors"
+                  aria-label="Tutup"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
               </div>
             </div>
 
@@ -115,15 +127,13 @@ export const DynamicIsland: React.FC<DynamicIslandProps> = ({ driver, onToggleAn
                   e.stopPropagation();
                   onToggleAnomaly();
                 }}
-                className="text-[10px] bg-white/10 hover:bg-white/20 active:bg-white/30 px-2 py-1 rounded text-white font-medium transition-colors"
+                className="text-[10px] bg-white/10 hover:bg-white/20 active:bg-white/30 px-2.5 py-1 rounded-md text-white font-medium transition-colors"
               >
                 {driver.isSimulatingAnomaly ? 'Normalkan' : 'Uji Anomali'}
               </button>
             </div>
             
-            <div className="text-center text-[9px] text-neutral-500 pt-0.5">
-              Ketuk untuk menutup
-            </div>
+            <div className="w-8 h-1 rounded-full bg-white/20 mx-auto mt-1" />
           </div>
         </div>
       </div>

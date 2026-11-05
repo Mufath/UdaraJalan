@@ -407,33 +407,13 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             )}
           </div>
 
-          {/* Real-time Live Telemetry Status */}
-          <div className="flex items-center space-x-3 shrink-0">
-            <button
-              onClick={onToggleLiveStreaming}
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs ${
-                isLiveStreaming 
-                  ? 'bg-emerald-600 text-white hover:bg-emerald-700' 
-                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200 border border-neutral-300'
-              }`}
-              title={isLiveStreaming ? "Klik untuk menjeda pembaruan live" : "Klik untuk melanjutkan streaming live"}
-            >
-              {isLiveStreaming ? (
-                <>
-                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  <span>LIVE STREAMING</span>
-                  <Pause className="w-3 h-3 ml-1 opacity-80" />
-                </>
-              ) : (
-                <>
-                  <span className="w-2 h-2 rounded-full bg-amber-500" />
-                  <span>DIJEDA</span>
-                  <Play className="w-3 h-3 ml-1 text-emerald-600 fill-emerald-600" />
-                </>
-              )}
-            </button>
-
-            <span className="text-xs text-neutral-500 hidden lg:inline">
+          {/* Real-time Data Indicator (Clean & Discreet) */}
+          <div className="flex items-center space-x-2 text-xs">
+            <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-neutral-100 text-neutral-700 rounded-full font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Real-time Live</span>
+            </span>
+            <span className="text-[11px] text-neutral-400 hidden lg:inline">
               Sensor armada motor listrik jalan raya
             </span>
           </div>
@@ -964,16 +944,13 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             </div>
           )}
 
-          {/* FLOATING SELECTED ROAD HUD CARD (Docked above bottom controls, never overlaps pins!) */}
+          {/* FLOATING SELECTED ROAD HUD CARD (Apple Refined Style, Docked, No Slop Borders) */}
           {selectedRoad && (
             <div className="hidden lg:block absolute bottom-16 left-4 max-w-sm z-20 pointer-events-auto">
-              <div 
-                className="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-2xl border-2 ring-4 ring-black/5 flex items-center justify-between gap-3 transition-all"
-                style={{ borderColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
-              >
+              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-neutral-200/80 flex items-center justify-between gap-3 transition-all">
                 <div className="flex items-center space-x-3 min-w-0">
                   <div 
-                    className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-white tabular-nums font-bold shrink-0 shadow-xs"
+                    className="w-11 h-11 rounded-2xl flex flex-col items-center justify-center text-white tabular-nums font-bold shrink-0 shadow-xs"
                     style={{ backgroundColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
                   >
                     <span className="text-xs font-black leading-none">{Math.round(selectedRoad.pm25)}</span>
@@ -982,31 +959,25 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                   
                   <div className="flex flex-col min-w-0">
                     <div className="flex items-center space-x-1.5">
-                      <h4 className="text-xs font-extrabold text-neutral-900 truncate">
+                      <h4 className="text-xs font-bold text-neutral-900 truncate">
                         {selectedRoad.name.split('(')[0].trim()}
                       </h4>
-                      <span 
-                        className="text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase shrink-0"
-                        style={{ 
-                          backgroundColor: `${getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color}20`, 
-                          color: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color 
-                        }}
-                      >
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 uppercase tracking-wider shrink-0">
                         {getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).shortLabel}
                       </span>
                     </div>
-                    <div className="flex items-center space-x-2 text-[11px] tabular-nums text-neutral-600 mt-0.5 truncate">
-                      <span className="text-amber-700 font-bold shrink-0">🌡️ {selectedRoad.temperature.toFixed(0)}°C</span>
+                    <div className="flex items-center space-x-1.5 text-[11px] text-neutral-500 mt-0.5 truncate">
+                      <span className="font-semibold text-neutral-700">{selectedRoad.temperature.toFixed(0)}°C</span>
                       <span className="text-neutral-300">•</span>
-                      <span className="text-neutral-500 font-sans text-[10px] truncate">{selectedRoad.area}</span>
+                      <span className="truncate">{selectedRoad.area}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-1 shrink-0">
+                <div className="flex items-center space-x-1.5 shrink-0">
                   <button
                     onClick={() => setIsSheetOpen(true)}
-                    className="px-2.5 py-1.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-[11px] font-bold transition-all shadow-xs active:scale-95"
+                    className="px-3.5 py-1.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-full text-xs font-bold transition-all shadow-xs active:scale-95"
                   >
                     Detail
                   </button>
@@ -1154,13 +1125,13 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 <div className="flex items-center space-x-1.5 shrink-0">
                   <button
                     onClick={() => setIsSheetOpen(true)}
-                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95"
+                    className="px-3.5 py-1.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-full text-xs font-bold transition-all shadow-xs active:scale-95"
                   >
                     Buka Card
                   </button>
                   <button
                     onClick={() => setMobileTab('detail')}
-                    className="px-2.5 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-xl text-xs font-semibold transition-all"
+                    className="px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 rounded-full text-xs font-semibold transition-all"
                     title="Lihat Detail Lengkap"
                   >
                     Detail Penuh

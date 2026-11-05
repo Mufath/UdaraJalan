@@ -216,19 +216,11 @@ export function App() {
             <div className="space-y-4 pb-24">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-1">
                 <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">
-                      Pemantauan Hiper-Lokal Live • {activeCity === 'surabaya' ? 'Kota Surabaya (Utama)' : 'DKI Jakarta'}
-                    </span>
-                  </div>
-                  <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-0.5">
-                    Peta Polusi Udara & Suhu Jalanan {activeCity === 'surabaya' ? 'Surabaya' : 'Jakarta'}
+                  <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
+                    Peta Kualitas Udara & Suhu {activeCity === 'surabaya' ? 'Surabaya' : 'Jakarta'}
                   </h1>
-                  <p className="text-xs sm:text-sm text-neutral-500 font-normal">
-                    {activeCity === 'surabaya'
-                      ? 'Pemantauan live menyeluruh mencakup 5 wilayah: Surabaya Pusat, Selatan, Timur, Barat, hingga Utara'
-                      : 'Kondisi real-time jalanan Jakarta dari sensor bergerak armada motor listrik'}
+                  <p className="text-xs sm:text-sm text-neutral-500 font-normal mt-1">
+                    Jejaring sensor bergerak armada motor listrik jalan raya
                   </p>
                 </div>
 
