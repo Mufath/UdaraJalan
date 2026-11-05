@@ -835,7 +835,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                       style={{ backgroundColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
                     />
                     <div 
-                      className="w-8 h-8 rounded-full bg-white shadow-xl border-3 ring-4 ring-blue-500/30 flex items-center justify-center font-mono font-black text-xs text-neutral-900 transition-transform hover:scale-110 active:scale-95"
+                      className="w-8 h-8 rounded-full bg-white shadow-xl border-3 ring-4 ring-blue-500/30 flex items-center justify-center tabular-nums font-black text-xs text-neutral-900 transition-transform hover:scale-110 active:scale-95"
                       style={{ borderColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
                     >
                       {Math.round(selectedRoad.pm25)}
@@ -866,7 +866,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                         title={`${road.name}: ${Math.round(road.pm25)} µg/m³ • ${road.temperature.toFixed(0)}°C`}
                       >
                         <div 
-                          className="w-6.5 h-6.5 rounded-full bg-white shadow-md border-2 flex items-center justify-center font-mono font-extrabold text-[10px] text-neutral-800 transition-all hover:shadow-lg hover:border-blue-500"
+                          className="w-6.5 h-6.5 rounded-full bg-white shadow-md border-2 flex items-center justify-center tabular-nums font-extrabold text-[10px] text-neutral-800 transition-all hover:shadow-lg hover:border-blue-500"
                           style={{ borderColor: pmMeta.color }}
                         >
                           {Math.round(road.pm25)}
@@ -874,7 +874,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                         {/* Mini Hover Tooltip */}
                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center whitespace-nowrap bg-neutral-900 text-white text-[10px] px-2 py-1 rounded-lg shadow-xl pointer-events-none z-30 font-sans">
                           <span className="font-bold">{road.name.split('(')[0].trim()}</span>
-                          <span className="text-neutral-300 font-mono text-[9px]">
+                          <span className="text-neutral-300 tabular-nums text-[9px]">
                             {Math.round(road.pm25)} µg/m³ • {road.temperature.toFixed(0)}°C
                           </span>
                         </div>
@@ -973,7 +973,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
               >
                 <div className="flex items-center space-x-3 min-w-0">
                   <div 
-                    className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-white font-mono font-bold shrink-0 shadow-xs"
+                    className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-white tabular-nums font-bold shrink-0 shadow-xs"
                     style={{ backgroundColor: getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).color }}
                   >
                     <span className="text-xs font-black leading-none">{Math.round(selectedRoad.pm25)}</span>
@@ -995,7 +995,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                         {getAirQualityMeta(selectedRoad.category, selectedRoad.pm25).shortLabel}
                       </span>
                     </div>
-                    <div className="flex items-center space-x-2 text-[11px] font-mono text-neutral-600 mt-0.5 truncate">
+                    <div className="flex items-center space-x-2 text-[11px] tabular-nums text-neutral-600 mt-0.5 truncate">
                       <span className="text-amber-700 font-bold shrink-0">🌡️ {selectedRoad.temperature.toFixed(0)}°C</span>
                       <span className="text-neutral-300">•</span>
                       <span className="text-neutral-500 font-sans text-[10px] truncate">{selectedRoad.area}</span>
