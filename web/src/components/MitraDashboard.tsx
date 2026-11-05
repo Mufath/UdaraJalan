@@ -105,7 +105,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
         <div>
           <div className="flex items-center space-x-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider font-mono">
+            <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">
               Live Armada Telemetri
             </span>
           </div>
@@ -121,7 +121,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <div className="flex items-center space-x-2 px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-full border border-neutral-200/80 shadow-xs text-xs">
             <span className="text-neutral-500 font-medium">Baterai LiFePO4:</span>
-            <span className="font-mono font-bold text-neutral-900">{driver.batteryPercentage}%</span>
+            <span className="font-bold tabular-nums text-neutral-900">{driver.batteryPercentage}%</span>
           </div>
           <button
             onClick={onToggleAnomaly}
@@ -167,7 +167,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                   </div>
                   <div className="flex items-center space-x-1.5 mt-1">
                     <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span className="text-[10px] text-emerald-100 font-mono font-bold">
+                    <span className="text-[10px] text-emerald-100 font-bold tabular-nums">
                       1 Hz Real-time Stream
                     </span>
                   </div>
@@ -177,14 +177,14 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               {/* Primary Value: PM2.5 Tabular Figure */}
               <div className="bg-white/15 backdrop-blur-sm p-3.5 rounded-2xl mb-3">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-mono text-emerald-100 uppercase font-semibold">
+                  <span className="text-[10px] text-emerald-100 uppercase font-semibold">
                     Konsentrasi PM2.5
                   </span>
-                  <span className="px-2 py-0.5 bg-white/25 text-white rounded-md text-[10px] font-bold font-mono">
+                  <span className="px-2 py-0.5 bg-white/25 text-white rounded-md text-[10px] font-bold">
                     Sedang (Baku 15–35)
                   </span>
                 </div>
-                <div className="flex items-baseline space-x-2 font-mono">
+                <div className="flex items-baseline space-x-2">
                   <span className="text-3xl font-extrabold text-white tracking-tight tabular-nums">
                     18.2
                   </span>
@@ -207,7 +207,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                       title="18.2 µg/m³ (Baku Mutu Ambang)"
                     />
                   </div>
-                  <div className="flex justify-between text-[9px] font-mono text-emerald-100 mt-1">
+                  <div className="flex justify-between text-[9px] tabular-nums text-emerald-100 mt-1">
                     <span>0 Baik</span>
                     <span>15 Ambang</span>
                     <span>35 Sedang</span>
@@ -217,7 +217,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               </div>
 
               {/* Sub-channel readings: PM1.0 & PM10 */}
-              <div className="grid grid-cols-2 gap-2 text-xs font-mono mb-2">
+              <div className="grid grid-cols-2 gap-2 text-xs tabular-nums mb-2">
                 <div className="px-2.5 py-1.5 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-between text-white">
                   <span className="text-[10px] text-emerald-100">PM1.0:</span>
                   <span className="font-bold text-white">9.4 µg/m³</span>
@@ -231,7 +231,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
 
             {/* Self-cleaning Fan Routine */}
             <div className="flex items-center justify-between pt-2.5 border-t border-white/20">
-              <div className="text-[10px] text-emerald-100 font-mono">
+              <div className="text-[10px] text-emerald-100 tabular-nums">
                 {isCleaningFan ? (
                   <span className="text-white font-semibold animate-pulse">Membersihkan debu optik...</span>
                 ) : (
@@ -244,7 +244,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                   setTimeout(() => setIsCleaningFan(false), 3500);
                 }}
                 disabled={isCleaningFan}
-                className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-white/20 hover:bg-white/30 text-white text-[10px] font-mono font-semibold transition-all active:scale-95 disabled:opacity-60"
+                className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-white/20 hover:bg-white/30 text-white text-[10px] font-semibold transition-all active:scale-95 disabled:opacity-60"
                 title="Jalankan siklus motor kipas pembersih debu optik"
               >
                 <RotateCw className={`w-3 h-3 ${isCleaningFan ? 'animate-spin text-white' : 'text-white'}`} />
@@ -264,10 +264,10 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
             <div>
               {/* Header with On-time / Multiplier badge */}
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold text-neutral-900 font-mono">
+                <span className="text-xs font-bold text-neutral-900 tabular-nums">
                   Misi • H3-886541
                 </span>
-                <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-mono text-[11px] font-bold">
+                <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[11px] font-bold">
                   Multiplier 2.0x
                 </span>
               </div>
@@ -275,7 +275,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               {/* Origin -> Trajectory -> Destination */}
               <div className="flex items-center justify-between my-2">
                 <div>
-                  <div className="text-xl font-extrabold text-neutral-900 font-mono tracking-tight">
+                  <div className="text-xl font-extrabold text-neutral-900 tracking-tight">
                     SNY
                   </div>
                   <div className="text-[11px] text-neutral-400">Senayan</div>
@@ -283,7 +283,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
 
                 {/* Trajectory Arc Graphic */}
                 <div className="flex-1 px-3 flex flex-col items-center">
-                  <div className="text-[10px] text-neutral-400 font-mono mb-0.5">18 mnt • 6.2 km</div>
+                  <div className="text-[10px] text-neutral-400 tabular-nums mb-0.5">18 mnt • 6.2 km</div>
                   <div className="w-full relative flex items-center justify-center">
                     <div className="w-full border-t-2 border-dashed border-blue-400" />
                     <div className="absolute w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-sm">
@@ -293,7 +293,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                 </div>
 
                 <div className="text-right">
-                  <div className="text-xl font-extrabold text-neutral-900 font-mono tracking-tight">
+                  <div className="text-xl font-extrabold text-neutral-900 tracking-tight">
                     DKH
                   </div>
                   <div className="text-[11px] text-neutral-400">Dukuh Atas</div>
@@ -301,7 +301,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               </div>
 
               {/* Time Breakdown */}
-              <div className="flex items-center justify-between text-xs font-mono mt-3 pt-2 border-t border-neutral-100">
+              <div className="flex items-center justify-between text-xs tabular-nums mt-3 pt-2 border-t border-neutral-100">
                 <div>
                   <div className="font-bold text-neutral-900">09:40</div>
                   <div className="text-[10px] text-neutral-400">Mulai • WIB</div>
@@ -340,7 +340,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                     <MapPin className="w-3 h-3 text-sky-200" />
                     <span>Jakarta Pusat</span>
                   </div>
-                  <div className="text-4xl font-extrabold tracking-tight mt-1 font-mono text-white">
+                  <div className="text-4xl font-extrabold tracking-tight mt-1 tabular-nums text-white">
                     31.2°
                   </div>
                   <div className="text-xs text-sky-100 mt-0.5">
@@ -365,8 +365,8 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                 { time: 'Jum', val: '34µg' }
               ].map((slot, i) => (
                 <div key={i} className="bg-white/15 backdrop-blur-sm rounded-xl py-2 px-1">
-                  <div className="text-[10px] text-sky-100 font-mono">{slot.time}</div>
-                  <div className="text-[11px] font-bold font-mono text-white mt-0.5">{slot.val}</div>
+                  <div className="text-[10px] text-sky-100">{slot.time}</div>
+                  <div className="text-[11px] font-bold tabular-nums text-white mt-0.5">{slot.val}</div>
                 </div>
               ))}
             </div>
@@ -436,7 +436,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
             </div>
 
             <div className="pt-2 text-right">
-              <span className="text-[10px] text-neutral-400 font-mono">Diperbarui 1m lalu</span>
+              <span className="text-[10px] text-neutral-400 tabular-nums">Diperbarui 1m lalu</span>
             </div>
           </div>
         </div>
@@ -475,7 +475,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                   </div>
                 </div>
 
-                <span className="px-2.5 py-1 bg-neutral-100 text-neutral-800 rounded-full text-xs font-semibold font-mono">
+                <span className="px-2.5 py-1 bg-neutral-100 text-neutral-800 rounded-full text-xs font-semibold tabular-nums">
                   12 min drive
                 </span>
               </div>
@@ -483,12 +483,12 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
 
             {/* Rate Breakdown */}
             <div className="mt-3 p-3 bg-neutral-50 rounded-2xl border border-neutral-100">
-              <div className="flex items-center justify-between text-xs font-mono">
+              <div className="flex items-center justify-between text-xs tabular-nums">
                 <span className="text-neutral-500">Tarif Standar</span>
                 <span className="text-neutral-400">+ Bonus Zona</span>
                 <span className="font-bold text-emerald-600">Total Tarif</span>
               </div>
-              <div className="flex items-center justify-between text-sm font-mono font-bold mt-1 text-neutral-900">
+              <div className="flex items-center justify-between text-sm font-bold mt-1 text-neutral-900 tabular-nums">
                 <span>Rp120</span>
                 <span className="text-neutral-400 text-xs font-normal">+ Rp120</span>
                 <span className="text-emerald-700">Rp240 / km</span>
@@ -510,16 +510,16 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
           <div className="ref-card p-5 flex flex-col justify-between flex-1">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-neutral-400 font-mono">
+                <span className="text-xs text-neutral-400 tabular-nums">
                   Target: {driver.dailyTargetPoints.toLocaleString('id-ID')} pts
                 </span>
-                <span className="text-xs font-semibold text-emerald-600 font-mono">
+                <span className="text-xs font-semibold text-emerald-600 tabular-nums">
                   Rp{driver.todayEarningsRupiah.toLocaleString('id-ID')}
                 </span>
               </div>
 
               {/* Big Metric: 34pt Tabular Figure (Like "3.1 km today" in reference) */}
-              <div className="flex items-baseline space-x-2 font-mono mb-3">
+              <div className="flex items-baseline space-x-2 mb-3">
                 <span className="text-3xl font-extrabold text-neutral-900 tracking-tight tabular-nums">
                   {selectedDay.km.toFixed(1)}
                 </span>
@@ -528,7 +528,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
 
               {/* 7-Day Histogram with Pill Bars (Exact reference style: pastel sky-blue + active electric blue) */}
               <div className="p-3 bg-neutral-50/80 rounded-2xl border border-neutral-100 my-2">
-                <div className="flex items-center justify-between text-[11px] text-neutral-500 font-mono mb-2">
+                <div className="flex items-center justify-between text-[11px] text-neutral-500 tabular-nums mb-2">
                   <span>Histogram Mingguan</span>
                   <span className="text-blue-600 font-bold tabular-nums">
                     {selectedDay.points.toLocaleString('id-ID')} pts
@@ -555,7 +555,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                             title={`${item.day}: ${item.km} km (${item.points} pts)`}
                           />
                         </div>
-                        <span className={`text-[10px] font-mono transition-colors ${
+                        <span className={`text-[10px] tabular-nums transition-colors ${
                           isSelected ? 'font-bold text-blue-600' : 'text-neutral-400 group-hover:text-neutral-700'
                         }`}>
                           {item.day}
@@ -575,7 +575,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
-              <div className="flex items-center justify-between text-[11px] text-neutral-500 font-mono mt-1.5">
+              <div className="flex items-center justify-between text-[11px] text-neutral-500 tabular-nums mt-1.5">
                 <span className="tabular-nums font-semibold text-neutral-900">{progressPercentage}% tercapai</span>
                 <span className="tabular-nums">{driver.validatedKm.toFixed(1)} / 50 km</span>
               </div>
@@ -592,14 +592,14 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
             </span>
             <div className="flex items-center space-x-1.5">
               {driver.isSimulatingAnomaly && (
-                <span className="inline-flex items-center space-x-1 px-1.5 py-0.5 bg-neutral-100 text-rose-700 border border-rose-300 rounded text-[9px] font-mono font-semibold">
+                <span className="inline-flex items-center space-x-1 px-1.5 py-0.5 bg-neutral-100 text-rose-700 border border-rose-300 rounded text-[9px] font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
                   <span>Anomali Aktif</span>
                 </span>
               )}
               <button
                 onClick={() => setBarsColour(prev => prev === 'Colour' ? 'Mono' : 'Colour')}
-                className="px-2 py-0.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-600 rounded-full text-[10px] font-mono font-medium transition-colors"
+                className="px-2 py-0.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-600 rounded-full text-[10px] font-medium transition-colors"
                 title="Ganti palet warna (Colour / Mono)"
               >
                 {barsColour}
@@ -623,7 +623,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
             </div>
 
             {/* Micro Sensor Indicator Legend */}
-            <div className="w-full mt-3 pt-3 border-t border-neutral-100 flex items-center justify-between text-[10px] font-mono text-neutral-500">
+            <div className="w-full mt-3 pt-3 border-t border-neutral-100 flex items-center justify-between text-[10px] text-neutral-500">
               <span className="flex items-center space-x-1">
                 <span className="w-2 h-2 rounded-xs bg-[#8b5cf6]" />
                 <span>SPS30</span>
@@ -761,7 +761,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                 <span className="text-xs font-medium text-neutral-500">
                   IMU & GNSS Correlation
                 </span>
-                <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold font-mono ${
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                   driver.isAntiCheatPassed 
                     ? 'bg-emerald-100 text-emerald-800' 
                     : 'bg-amber-100 text-amber-800'
@@ -772,7 +772,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
 
               {/* Seismograph Waveform Container */}
               <div className="p-3 bg-neutral-50 rounded-2xl border border-neutral-100 my-2 space-y-2">
-                <div className="flex items-center justify-between text-[11px] font-mono">
+                <div className="flex items-center justify-between text-[11px] tabular-nums">
                   <span className="text-neutral-500">Sensor Getaran Motor (IMU)</span>
                   <span className={`font-semibold ${driver.isSimulatingAnomaly ? 'text-amber-600' : 'text-neutral-900'}`}>
                     {driver.accelerometerRMS.toFixed(2)}g RMS {driver.isSimulatingAnomaly ? '(Diam)' : '(Aktif)'}
@@ -800,7 +800,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                 </div>
 
                 {/* Dual Range Indicators */}
-                <div className="grid grid-cols-2 gap-2 pt-1 font-mono text-[10px]">
+                <div className="grid grid-cols-2 gap-2 pt-1 text-[10px] tabular-nums">
                   <div className="bg-white p-2 rounded-xl border border-neutral-200/60">
                     <div className="text-neutral-400">Laju GNSS</div>
                     <div className="text-sm font-bold text-neutral-900 mt-0.5 tabular-nums">{driver.currentSpeed} km/j</div>
@@ -851,14 +851,14 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                 <span className="text-xs font-medium text-neutral-500">
                   SPS30 & SHT40 Calibrated
                 </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded-md">
+                <span className="text-[10px] px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded-md">
                   MCERTS UK
                 </span>
               </div>
 
               {/* PM2.5 Spectrum Gauge */}
               <div className="p-3 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-2 mb-3">
-                <div className="flex items-baseline justify-between font-mono">
+                <div className="flex items-baseline justify-between tabular-nums">
                   <div>
                     <span className="text-[10px] text-neutral-400 uppercase font-semibold">Sensirion SPS30</span>
                     <div className="text-2xl font-extrabold text-neutral-900">
@@ -886,7 +886,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                       title="18.2 µg/m³ PM2.5"
                     />
                   </div>
-                  <div className="flex justify-between text-[9px] font-mono text-neutral-400 mt-1">
+                  <div className="flex justify-between text-[9px] tabular-nums text-neutral-400 mt-1">
                     <span>0 Baik</span>
                     <span>15 Ambang</span>
                     <span>35 Sedang</span>
@@ -896,7 +896,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               </div>
 
               {/* Secondary Visual Hardware Meters: SHT40 & LiFePO4 */}
-              <div className="grid grid-cols-2 gap-2 font-mono text-xs">
+              <div className="grid grid-cols-2 gap-2 text-xs tabular-nums">
                 <div className="p-2.5 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-1">
                   <div className="text-[10px] text-neutral-400">Sensirion SHT40</div>
                   <div className="font-bold text-neutral-900 text-sm">31.2°C <span className="font-normal text-neutral-500">68%</span></div>
@@ -921,7 +921,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
             </div>
 
             {/* Laser Auto-Clean Countdown */}
-            <div className="pt-2 border-t border-neutral-100 flex items-center justify-between text-[11px] font-mono text-neutral-500">
+            <div className="pt-2 border-t border-neutral-100 flex items-center justify-between text-[11px] tabular-nums text-neutral-500">
               <span>Pembersihan laser optik:</span>
               <span className="text-neutral-900 font-semibold">{driver.autoCleanCountdownHours} jam tersisa</span>
             </div>
@@ -958,13 +958,13 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               />
             </div>
             <div className="flex flex-col sm:items-end gap-2 shrink-0">
-              <span className="text-[11px] text-neutral-400 font-mono">Tag Cepat Lapangan:</span>
+              <span className="text-[11px] text-neutral-400">Tag Cepat Lapangan:</span>
               <div className="flex flex-wrap gap-1">
                 {['#Galian', '#Macet', '#DebuSemen', '#JalurBersih'].map(tag => (
                   <button
                     key={tag}
                     onClick={() => setFieldNote(prev => `${prev} ${tag}`)}
-                    className="px-2.5 py-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-lg text-xs font-mono transition-colors"
+                    className="px-2.5 py-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-lg text-xs transition-colors"
                   >
                     {tag}
                   </button>

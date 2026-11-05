@@ -44,7 +44,29 @@ export default {
         brand: [
           '"Plus Jakarta Sans"',
           'sans-serif'
+        ],
+        mono: [
+          'Inter',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"SF Pro Text"',
+          '"SF Pro Display"',
+          'sans-serif'
         ]
+      },
+      fontSize: {
+        'large-title': ['34px', { lineHeight: '41px', letterSpacing: '0.37px', fontWeight: '700' }],
+        'title-1': ['28px', { lineHeight: '34px', letterSpacing: '0.36px', fontWeight: '700' }],
+        'title-2': ['22px', { lineHeight: '28px', letterSpacing: '0.35px', fontWeight: '700' }],
+        'title-3': ['20px', { lineHeight: '25px', letterSpacing: '0.38px', fontWeight: '600' }],
+        'headline': ['17px', { lineHeight: '22px', letterSpacing: '-0.41px', fontWeight: '600' }],
+        'body': ['17px', { lineHeight: '22px', letterSpacing: '-0.41px', fontWeight: '400' }],
+        'callout': ['16px', { lineHeight: '21px', letterSpacing: '-0.32px', fontWeight: '400' }],
+        'subheadline': ['15px', { lineHeight: '20px', letterSpacing: '-0.24px', fontWeight: '400' }],
+        'footnote': ['13px', { lineHeight: '18px', letterSpacing: '-0.08px', fontWeight: '400' }],
+        'caption-1': ['12px', { lineHeight: '16px', letterSpacing: '0.0px', fontWeight: '400' }],
+        'caption-2': ['11px', { lineHeight: '13px', letterSpacing: '0.06px', fontWeight: '400' }],
+        'metric': ['34px', { lineHeight: '41px', letterSpacing: '-0.5px', fontWeight: '700' }],
       },
       borderRadius: {
         'squircle-sm': '10px',

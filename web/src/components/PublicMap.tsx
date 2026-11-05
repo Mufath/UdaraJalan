@@ -1069,28 +1069,28 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                       <span className="font-semibold text-neutral-800">Bersih & Segar</span>
                     </div>
-                    <span className="font-mono text-neutral-500">0 - 15 µg</span>
+                    <span className="tabular-nums text-neutral-500">0 - 15 µg</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                       <span className="font-semibold text-neutral-800">Sedang</span>
                     </div>
-                    <span className="font-mono text-neutral-500">16 - 35 µg</span>
+                    <span className="tabular-nums text-neutral-500">16 - 35 µg</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
                       <span className="font-semibold text-neutral-800">Tidak Sehat</span>
                     </div>
-                    <span className="font-mono text-neutral-500">36 - 55 µg</span>
+                    <span className="tabular-nums text-neutral-500">36 - 55 µg</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
                       <span className="font-semibold text-neutral-800">Sangat Bahaya</span>
                     </div>
-                    <span className="font-mono text-neutral-500">&gt; 55 µg</span>
+                    <span className="tabular-nums text-neutral-500">&gt; 55 µg</span>
                   </div>
                 </div>
               )}
@@ -1103,28 +1103,28 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                       <span className="w-2.5 h-2.5 rounded-full bg-sky-500" />
                       <span className="font-semibold text-neutral-800">Sejuk</span>
                     </div>
-                    <span className="font-mono text-neutral-500">&lt; 28°C</span>
+                    <span className="tabular-nums text-neutral-500">&lt; 28°C</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                       <span className="font-semibold text-neutral-800">Hangat Normal</span>
                     </div>
-                    <span className="font-mono text-neutral-500">28 - 31°C</span>
+                    <span className="tabular-nums text-neutral-500">28 - 31°C</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                       <span className="font-semibold text-neutral-800">Cukup Panas</span>
                     </div>
-                    <span className="font-mono text-neutral-500">32 - 34°C</span>
+                    <span className="tabular-nums text-neutral-500">32 - 34°C</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
                       <span className="font-semibold text-neutral-800">Panas Terik</span>
                     </div>
-                    <span className="font-mono text-neutral-500">&ge; 35°C</span>
+                    <span className="tabular-nums text-neutral-500">&ge; 35°C</span>
                   </div>
                 </div>
               )}
@@ -1136,7 +1136,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             <div className="lg:hidden absolute bottom-3 inset-x-3 z-20 pointer-events-none">
               <div className="pointer-events-auto bg-white/95 backdrop-blur-md p-3 rounded-2xl border border-neutral-200/90 shadow-xl flex items-center justify-between gap-3">
                 <div className="min-w-0 flex-1">
-                  <div className="text-[10px] font-mono text-neutral-400 font-semibold uppercase truncate">
+                  <div className="text-[10px] text-neutral-400 font-semibold uppercase truncate">
                     {selectedRoad.area}
                   </div>
                   <div className="text-xs font-bold text-neutral-900 truncate">
@@ -1277,7 +1277,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
       {/* 1. Header Informasi Jalan */}
       <div className="border-b border-neutral-100 pb-3">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono text-neutral-500 font-semibold uppercase tracking-wider">
+          <span className="text-[11px] text-neutral-500 font-semibold uppercase tracking-wider">
             {selectedRoad.area}
           </span>
           <div className="flex items-center space-x-1.5 bg-neutral-100 text-neutral-700 px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
@@ -1330,7 +1330,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
                 style={{ width: `${pmPercentage}%` }} 
               />
             </div>
-            <div className="flex justify-between text-[9px] font-mono text-white/75">
+            <div className="flex justify-between text-[9px] tabular-nums text-white/75">
               <span>0 Bersih</span>
               <span>35 Sedang</span>
               <span>55+ Bahaya</span>
@@ -1364,7 +1364,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
 
           {/* Humidity & Sun info in Frosted Tile */}
           <div className="pt-2 text-[11px] text-white space-y-1">
-            <div className="bg-white/15 backdrop-blur-sm rounded-xl px-2.5 py-1.5 flex items-center justify-between font-mono">
+            <div className="bg-white/15 backdrop-blur-sm rounded-xl px-2.5 py-1.5 flex items-center justify-between tabular-nums">
               <span className="flex items-center space-x-1 text-sky-100">
                 <Droplets className="w-3 h-3 text-sky-200" />
                 <span>Kelembapan:</span>
@@ -1411,7 +1411,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
         </div>
 
         {/* Armada Live Proof */}
-        <div className="flex items-center justify-between pt-1 text-[11px] text-neutral-500 font-mono">
+        <div className="flex items-center justify-between pt-1 text-[11px] text-neutral-500 tabular-nums">
           <span>Armada Melintas Hari Ini:</span>
           <span className="font-bold text-neutral-800">{selectedRoad.uniquePassesCount} Motor Listrik</span>
         </div>
@@ -1434,13 +1434,13 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
         </p>
 
         {/* Comparison Pills with Frosted Glass Containers */}
-        <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+        <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="bg-white/20 backdrop-blur-md p-3 rounded-2xl border border-white/25">
             <div className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider">Rute Bersih</div>
             <div className="text-white font-extrabold text-base mt-0.5 tabular-nums">
               {routeComparison.cleanAirRoute.averagePM25.toFixed(1)} µg/m³
             </div>
-            <div className="text-[10px] text-blue-100 mt-0.5">
+            <div className="text-[10px] text-blue-100 tabular-nums mt-0.5">
               {routeComparison.cleanAirRoute.durationMinutes} m • {routeComparison.cleanAirRoute.distanceKm} km
             </div>
           </div>
@@ -1450,7 +1450,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
             <div className="text-white/80 font-bold text-base mt-0.5 tabular-nums">
               {routeComparison.fastestRoute.averagePM25.toFixed(1)} µg/m³
             </div>
-            <div className="text-[10px] text-blue-200 mt-0.5">
+            <div className="text-[10px] text-blue-200 tabular-nums mt-0.5">
               {routeComparison.fastestRoute.durationMinutes} m • {routeComparison.fastestRoute.distanceKm} km
             </div>
           </div>
@@ -1485,7 +1485,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
             </div>
 
             <div>
-              <div className="flex justify-between text-xs mb-1 font-mono">
+              <div className="flex justify-between text-xs mb-1 tabular-nums">
                 <span className="text-neutral-600">Simulasi PM2.5:</span>
                 <span className="font-bold" style={{ color: pmMeta.color }}>
                   {selectedRoad.pm25.toFixed(1)} µg/m³
@@ -1510,7 +1510,7 @@ const RoadDetailContent: React.FC<RoadDetailContentProps> = ({
             </div>
 
             <div>
-              <div className="flex justify-between text-xs mb-1 font-mono">
+              <div className="flex justify-between text-xs mb-1 tabular-nums">
                 <span className="text-neutral-600">Simulasi Suhu:</span>
                 <span className="font-bold" style={{ color: tempMeta.color }}>
                   {selectedRoad.temperature.toFixed(1)} °C
