@@ -218,7 +218,7 @@ export function App() {
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider font-mono">
+                    <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">
                       Pemantauan Hiper-Lokal Live • {activeCity === 'surabaya' ? 'Kota Surabaya (Utama)' : 'DKI Jakarta'}
                     </span>
                   </div>

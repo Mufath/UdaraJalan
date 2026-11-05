@@ -123,7 +123,7 @@ export const MiniH3Map: React.FC<MiniH3MapProps> = ({ onNavigate, activeCity = '
       </div>
 
       {/* Floating Spatial Spec Note */}
-      <div className="absolute bottom-2.5 left-2.5 z-[10] bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md text-[11px] font-medium text-neutral-800 border border-neutral-200/90 shadow-xs flex items-center space-x-1.5 font-mono">
+      <div className="absolute bottom-2.5 left-2.5 z-[10] bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md text-[11px] font-medium text-neutral-800 border border-neutral-200/90 shadow-xs flex items-center space-x-1.5 tabular-nums">
         <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
         <span>H3 Resolusi 8 • Radius ±500m</span>
       </div>

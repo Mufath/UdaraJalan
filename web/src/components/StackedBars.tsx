@@ -373,14 +373,14 @@ export function StackedBars({
       </div>
 
       <div className="stb-figure">
-        <span className="stb-num font-mono" aria-label={totalDisplay}>
+        <span className="stb-num tabular-nums" aria-label={totalDisplay}>
           {totalDisplay.split("").map((ch, i) => (
             <span key={`${gen}-${i}`} className="stb-digit" data-pop={gen > 0 || undefined} style={{ ["--i" as string]: i } as CSSProperties} aria-hidden>
               {ch}
             </span>
           ))}
         </span>
-        <span className="stb-unit font-mono font-medium">{resolvedUnit}</span>
+        <span className="stb-unit font-medium">{resolvedUnit}</span>
       </div>
 
       <div
@@ -439,18 +439,18 @@ export function StackedBars({
         <motion.div className="stb-tip shadow-lg" style={{ x: tipX, width: TIP_W }} aria-hidden={!cur}>
           {cur && (
             <>
-              <div className="stb-tip-head font-mono">
+              <div className="stb-tip-head">
                 <span className="truncate mr-2">{cur.label}</span>
                 <b className="tabular-nums shrink-0">{formatVal(totals[at!])}</b>
               </div>
               {top2.map(({ v, k }) => (
-                <div className="stb-tip-row font-mono text-[11px]" key={resolvedCats[k] || k}>
+                <div className="stb-tip-row text-[11px]" key={resolvedCats[k] || k}>
                   <i style={{ ["--c" as string]: `var(--stb-c${k + 1})` } as CSSProperties} className="shrink-0" />
                   <span className="truncate flex-1 min-w-0 mr-2 text-neutral-600">{resolvedCats[k] || `Komponen ${k + 1}`}</span>
                   <b className="tabular-nums shrink-0 font-medium text-neutral-900">{formatVal(v)}</b>
                 </div>
               ))}
-              <div className="stb-tip-row font-mono text-[11px]" data-esc="">
+              <div className="stb-tip-row text-[11px]" data-esc="">
                 <i className={`shrink-0 ${!isFinancial && cur.isToday && isSimulatingAnomaly ? 'bg-rose-500 animate-ping' : ''}`} />
                 <span className={`truncate flex-1 min-w-0 mr-2 ${!isFinancial && cur.isToday && isSimulatingAnomaly ? 'text-rose-600 font-bold' : 'text-neutral-600'}`}>
                   {resolvedEscLabel}
@@ -466,7 +466,7 @@ export function StackedBars({
         </motion.div>
       </div>
 
-      <div className="stb-axis font-mono">
+      <div className="stb-axis tabular-nums">
         <span>{data[0].short}</span>
         <span className="flex items-center space-x-1">
           {!isFinancial && isSimulatingAnomaly && <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping mr-1" />}

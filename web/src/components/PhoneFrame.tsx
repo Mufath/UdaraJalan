@@ -80,7 +80,7 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
             <DynamicIsland driver={driver} onToggleAnomaly={onToggleAnomaly} />
 
             {/* Hardware Battery Meter Pill */}
-            <div className="hidden sm:flex items-center space-x-1.5 bg-neutral-100/80 px-2.5 py-1 rounded-full border border-neutral-200/60 font-mono text-xs text-neutral-700">
+            <div className="hidden sm:flex items-center space-x-1.5 bg-neutral-100/80 px-2.5 py-1 rounded-full border border-neutral-200/60 text-xs text-neutral-700">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span className="tabular-nums font-semibold">{driver.batteryPercentage}%</span>
               <BatteryMedium className="w-3.5 h-3.5 text-neutral-500" />

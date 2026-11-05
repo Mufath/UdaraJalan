@@ -123,7 +123,7 @@ public struct MitraDashboardView: View {
             HStack(alignment: .firstTextBaseline) {
                 Text("\(viewModel.accumulatedPoints.formatted())")
                     .monospacedDigit()
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
+                    .font(.system(size: 34, weight: .bold, design: .default))
                     .foregroundStyle(Color(uiColor: .label))
                 
                 Text("Pts")

@@ -53,7 +53,7 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
         <div>
           <div className="flex items-center space-x-2">
             <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse" />
-            <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider font-mono">
+            <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider">
               Keamanan Data & Perangkat
             </span>
           </div>
@@ -66,7 +66,7 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
         </div>
 
         {/* Status Pill */}
-        <div className="flex items-center space-x-2 px-3.5 py-1.5 bg-white rounded-full border border-neutral-200/80 shadow-xs text-xs font-mono">
+        <div className="flex items-center space-x-2 px-3.5 py-1.5 bg-white rounded-full border border-neutral-200/80 shadow-xs text-xs">
           <Shield className="w-3.5 h-3.5 text-emerald-600" />
           <span className="text-neutral-700 font-semibold">UU PDP Terenkripsi</span>
         </div>
@@ -95,23 +95,23 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
             <div>
               {/* Avatar + Monogram */}
               <div className="flex items-center space-x-4 mb-5">
-                <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-xl font-mono shadow-xs shrink-0">
+                <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-xl shadow-xs shrink-0">
                   BR
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
                     <h2 className="text-lg font-bold text-neutral-900">{driver.name}</h2>
-                    <span className="px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full text-[10px] font-bold font-mono">
+                    <span className="px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full text-[10px] font-bold">
                       Tier 1
                     </span>
                   </div>
                   <div className="text-xs text-neutral-500 font-medium">Mitra Armada EV DKI Jakarta</div>
-                  <div className="text-[11px] text-neutral-400 font-mono mt-0.5">ID: UJ-DRV-849102</div>
+                  <div className="text-[11px] text-neutral-400 tabular-nums mt-0.5">ID: UJ-DRV-849102</div>
                 </div>
               </div>
 
               {/* Hardware / EV Specs */}
-              <div className="p-3.5 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-2 font-mono text-xs">
+              <div className="p-3.5 bg-neutral-50 rounded-2xl border border-neutral-100 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500 flex items-center space-x-1.5">
                     <Bike className="w-3.5 h-3.5 text-neutral-400" />
@@ -136,7 +136,7 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-mono text-neutral-500">
+            <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs tabular-nums text-neutral-500">
               <span>Rating Kualitas Data:</span>
               <span className="font-bold text-neutral-900">4.98 / 5.00 ★</span>
             </div>
@@ -197,7 +197,7 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
                     <EyeOff className="w-4 h-4" />
                   </div>
                   {/* Radius Tag */}
-                  <div className="absolute bottom-0 bg-neutral-900 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-full z-20">
+                  <div className="absolute bottom-0 bg-neutral-900 text-white tabular-nums text-[9px] px-1.5 py-0.5 rounded-full z-20">
                     500m
                   </div>
                 </div>
@@ -214,7 +214,7 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
               </div>
 
               {/* Cryptographic Hash & Auto-Purge */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-100">
                   <div className="text-neutral-400 text-[10px] flex items-center justify-between">
                     <span>Pseudonimisasi SHA-256</span>
@@ -226,14 +226,14 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
                       {copiedHash ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
                     </button>
                   </div>
-                  <div className="font-bold text-neutral-800 mt-1 truncate">
+                  <div className="font-bold text-neutral-800 tabular-nums mt-1 truncate">
                     {hashString.slice(0, 16)}...
                   </div>
                 </div>
 
                 <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-100">
                   <div className="text-neutral-400 text-[10px]">Retensi Audit Raw</div>
-                  <div className="font-bold text-neutral-800 mt-1">14 Hari Auto-Purge</div>
+                  <div className="font-bold text-neutral-800 tabular-nums mt-1">14 Hari Auto-Purge</div>
                 </div>
               </div>
             </div>
@@ -258,15 +258,15 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-sm font-bold text-neutral-900">Perangkat Clip-on & Sensor</h3>
-                  <div className="text-[11px] text-neutral-400 font-mono">Serial: UJ-EV-2026-X84</div>
+                  <div className="text-[11px] text-neutral-400 tabular-nums">Serial: UJ-EV-2026-X84</div>
                 </div>
-                <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold font-mono">
+                <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold">
                   Sehat
                 </span>
               </div>
 
               {/* Hardware Meters */}
-              <div className="grid grid-cols-2 gap-3 mb-4 font-mono">
+              <div className="grid grid-cols-2 gap-3 mb-4 tabular-nums">
                 <div className="p-3 bg-neutral-50 rounded-2xl border border-neutral-100">
                   <div className="text-[10px] text-neutral-400">LiFePO4 Mandiri</div>
                   <div className="text-2xl font-bold text-neutral-900 mt-0.5">{driver.batteryPercentage}%</div>
@@ -313,7 +313,7 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
                 <h3 className="text-sm font-bold text-neutral-900">
                   Sertifikasi Instrumen Laboratorium
                 </h3>
-                <div className="flex gap-1.5 font-mono text-[10px]">
+                <div className="flex gap-1.5 text-[10px]">
                   <span className="px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full font-bold">
                     DEFRA
                   </span>
@@ -333,7 +333,7 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-mono text-neutral-400">
+            <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs tabular-nums text-neutral-400">
               <span>Masa Berlaku Kalibrasi:</span>
               <span className="font-bold text-neutral-900">2027 • ISO 14001</span>
             </div>

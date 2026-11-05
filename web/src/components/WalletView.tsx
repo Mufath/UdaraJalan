@@ -90,7 +90,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
         <div>
           <div className="flex items-center space-x-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider font-mono">
+            <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">
               Finansial & Reward EV
             </span>
           </div>
@@ -150,7 +150,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
               {/* Card Header with Fleet Pill & Card ID */}
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center space-x-2">
-                  <div className="w-7 h-7 rounded-xl bg-neutral-900 text-white flex items-center justify-center font-bold font-mono text-xs shadow-xs">
+                  <div className="w-7 h-7 rounded-xl bg-neutral-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">
                     EV
                   </div>
                   <div className="flex items-center space-x-1.5 px-2.5 py-1 bg-neutral-100 rounded-full border border-neutral-200/70 text-xs font-semibold text-neutral-700">
@@ -158,19 +158,19 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                     <span>Armada Listrik DKI</span>
                   </div>
                 </div>
-                <span className="text-xs font-mono font-medium text-neutral-400">•••• 8491</span>
+                <span className="text-xs font-medium tabular-nums text-neutral-400">•••• 8491</span>
               </div>
 
               {/* Large Metric Figures */}
               <div className="space-y-1 mb-5">
-                <span className="text-xs font-mono text-neutral-500 uppercase tracking-wider block font-semibold">
+                <span className="text-xs text-neutral-500 uppercase tracking-wider block font-semibold">
                   Saldo Siap Tarik
                 </span>
-                <div className="text-3xl sm:text-4xl font-extrabold tracking-tight font-mono tabular-nums text-neutral-900">
+                <div className="text-3xl sm:text-4xl font-extrabold tracking-tight tabular-nums text-neutral-900">
                   Rp{balanceRupiah.toLocaleString('id-ID')}
                 </div>
                 <div className="pt-1.5">
-                  <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold font-mono">
+                  <div className="inline-flex items-center space-x-1.5 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold tabular-nums">
                     <Coins className="w-3.5 h-3.5 text-emerald-700" />
                     <span>{totalPoints.toLocaleString('id-ID')} Poin Terverifikasi</span>
                   </div>
@@ -182,16 +182,16 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
             <div className="grid grid-cols-2 gap-3 text-xs mb-5">
               <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-100">
                 <div className="text-neutral-400 text-[10px] font-semibold">Tarif Dasar Standar</div>
-                <div className="font-extrabold text-neutral-900 text-sm mt-0.5 font-mono">Rp120 / km</div>
-                <div className="text-[10px] text-neutral-400 mt-1 font-mono">Perjalanan tervalidasi</div>
+                <div className="font-extrabold text-neutral-900 text-sm mt-0.5 tabular-nums">Rp120 / km</div>
+                <div className="text-[10px] text-neutral-400 mt-1">Perjalanan tervalidasi</div>
               </div>
               <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-100">
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500 text-[10px] font-semibold">Prioritas Spasial</span>
-                  <span className="px-1.5 py-0.5 bg-neutral-900 text-white rounded font-mono text-[9px] font-bold">2.0x</span>
+                  <span className="px-1.5 py-0.5 bg-neutral-900 text-white rounded text-[9px] font-bold tabular-nums">2.0x</span>
                 </div>
-                <div className="font-extrabold text-emerald-600 text-sm mt-0.5 font-mono">Rp240 / km</div>
-                <div className="text-[10px] text-neutral-500 mt-1 font-mono truncate">Koridor Sudirman - Dukuh Atas</div>
+                <div className="font-extrabold text-emerald-600 text-sm mt-0.5 tabular-nums">Rp240 / km</div>
+                <div className="text-[10px] text-neutral-500 mt-1 truncate">Koridor Sudirman - Dukuh Atas</div>
               </div>
             </div>
 
@@ -263,7 +263,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                 />
 
                 {/* Financial Component Legend */}
-                <div className="w-full mt-3 pt-3 border-t border-neutral-100 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] font-mono text-neutral-500">
+                <div className="w-full mt-3 pt-3 border-t border-neutral-100 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-neutral-500">
                   <span className="flex items-center space-x-1.5">
                     <span className="w-2 h-2 rounded-xs bg-[#8b5cf6] shrink-0" />
                     <span className="truncate">Bonus H3 (2x)</span>
@@ -290,7 +290,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
               <div>
                 <div className="flex items-center justify-between text-xs mb-2">
                   <span className="font-semibold text-neutral-800">Distribusi 7 Hari</span>
-                  <span className="text-[11px] font-mono text-neutral-400">
+                  <span className="text-[11px] tabular-nums text-neutral-400">
                     Total: Rp2.138.000
                   </span>
                 </div>
@@ -298,12 +298,12 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                 {/* Dynamic Day Detail Box */}
                 <div className="p-3 bg-neutral-50 rounded-2xl border border-neutral-100 flex items-center justify-between mb-3">
                   <div>
-                    <div className="text-[10px] text-neutral-400 font-mono">Hari {currentSelectedDay.day}</div>
-                    <div className="text-lg font-bold font-mono text-neutral-900 mt-0.5">
+                    <div className="text-[10px] text-neutral-400 tabular-nums">Hari {currentSelectedDay.day}</div>
+                    <div className="text-lg font-bold tabular-nums text-neutral-900 mt-0.5">
                       {currentSelectedDay.amount}
                     </div>
                   </div>
-                  <div className="text-right text-xs font-mono">
+                  <div className="text-right text-xs tabular-nums">
                     <div className="font-semibold text-blue-600">+{currentSelectedDay.points} pts</div>
                     <div className="text-[10px] text-neutral-400">{currentSelectedDay.km} km tervalidasi</div>
                   </div>
@@ -330,7 +330,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                             title={`${item.day}: ${item.amount}`}
                           />
                         </div>
-                        <span className={`text-[10px] font-mono transition-colors ${
+                        <span className={`text-[10px] tabular-nums transition-colors ${
                           isSelected ? 'font-bold text-blue-600' : 'text-neutral-400'
                         }`}>
                           {item.day}
@@ -343,12 +343,12 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
             )}
 
             {/* Card Footer Status */}
-            <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-[11px] font-mono text-neutral-400">
+            <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-[11px] text-neutral-400">
               <span className="flex items-center space-x-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 <span>Sinkron Otomatis E-Wallet</span>
               </span>
-              <span>Diperbarui 1m lalu</span>
+              <span className="tabular-nums">Diperbarui 1m lalu</span>
             </div>
           </div>
         </div>
@@ -366,7 +366,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
             <Compass className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-bold font-mono text-neutral-900">38.4 km Terpetakan</div>
+            <div className="text-lg font-bold tabular-nums text-neutral-900">38.4 km Terpetakan</div>
             <div className="text-xs text-neutral-500">Cakupan Deteksi Ruas Jalan Hari Ini</div>
           </div>
         </div>
@@ -377,7 +377,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
             <Coins className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-bold font-mono text-neutral-900">14.850 Poin</div>
+            <div className="text-lg font-bold tabular-nums text-neutral-900">14.850 Poin</div>
             <div className="text-xs text-neutral-500">Nilai Konversi Rp120/poin</div>
           </div>
         </div>
@@ -388,7 +388,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
             <Gift className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-lg font-bold font-mono text-neutral-900">12 Mitra Swap</div>
+            <div className="text-lg font-bold tabular-nums text-neutral-900">12 Mitra Swap</div>
             <div className="text-xs text-neutral-500">Stasiun Penukaran Baterai DKI</div>
           </div>
         </div>
@@ -409,7 +409,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
               <h2 className="text-sm font-bold text-neutral-900">
                 Riwayat Perjalanan & Insentif Tervalidasi
               </h2>
-              <p className="text-xs text-neutral-400 font-mono mt-0.5">
+              <p className="text-xs text-neutral-400 mt-0.5">
                 Sinkronisasi otomatis dengan sensor optik SPS30 & log anti-cheat
               </p>
             </div>
@@ -445,13 +445,13 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                     <div className="text-xs font-bold text-neutral-900 flex items-center space-x-2">
                       <span>{tx.title}</span>
                       {tx.isMultiplierZone && (
-                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-mono text-[10px] font-bold">
+                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-bold">
                           Bonus 2.0x
                         </span>
                       )}
                     </div>
 
-                    <div className="text-[11px] text-neutral-400 font-mono flex items-center space-x-1.5">
+                    <div className="text-[11px] text-neutral-400 tabular-nums flex items-center space-x-1.5">
                       <Clock className="w-3 h-3 text-neutral-400" />
                       <span>{tx.timeString}</span>
                       {tx.validatedKm > 0 && (
@@ -463,8 +463,8 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                     </div>
                   </div>
 
-                  <div className="text-right font-mono">
-                    <div className={`text-sm font-bold tabular-nums ${isNegative ? 'text-rose-600' : 'text-neutral-900'}`}>
+                  <div className="text-right tabular-nums">
+                    <div className={`text-sm font-bold ${isNegative ? 'text-rose-600' : 'text-neutral-900'}`}>
                       {isNegative ? `-Rp${Math.abs(tx.rupiahAmount).toLocaleString('id-ID')}` : `+Rp${tx.rupiahAmount.toLocaleString('id-ID')}`}
                     </div>
                     <div className="text-[10px] text-neutral-400 flex items-center justify-end space-x-1">
@@ -505,7 +505,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                   <button
                     key={amount}
                     onClick={() => setWithdrawAmount(amount)}
-                    className={`py-2 px-1 rounded-xl text-xs font-bold font-mono transition-all ${
+                    className={`py-2 px-1 rounded-xl text-xs font-bold tabular-nums transition-all ${
                       withdrawAmount === amount
                         ? 'bg-neutral-900 text-white shadow-xs'
                         : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
@@ -518,7 +518,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
             </div>
 
             {/* Calculation Preview */}
-            <div className="p-3.5 bg-neutral-50 rounded-2xl border border-neutral-200/80 text-xs font-mono space-y-1">
+            <div className="p-3.5 bg-neutral-50 rounded-2xl border border-neutral-200/80 text-xs tabular-nums space-y-1">
               <div className="flex justify-between text-neutral-500">
                 <span>Nominal Ditarik:</span>
                 <span className="font-bold text-neutral-900">Rp{withdrawAmount.toLocaleString('id-ID')}</span>
@@ -547,7 +547,7 @@ export const WalletView: React.FC<WalletViewProps> = ({ transactions: initialTra
                         : 'border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50'
                     }`}
                   >
-                    <span className="uppercase font-mono">{method}</span>
+                    <span className="uppercase">{method}</span>
                     {withdrawMethod === method && <Check className="w-4 h-4 text-blue-600" />}
                   </div>
                 ))}

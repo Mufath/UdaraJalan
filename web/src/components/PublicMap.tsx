@@ -443,7 +443,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {/* Avg PM2.5 */}
-            <div className="flex items-center space-x-1.5 bg-neutral-100 px-3 py-1 rounded-full font-mono">
+            <div className="flex items-center space-x-1.5 bg-neutral-100 px-3 py-1 rounded-full tabular-nums">
               <span className="text-neutral-500 font-sans">
                 Polusi {activeCity === 'surabaya' ? 'Surabaya' : 'DKI'}:
               </span>
@@ -459,7 +459,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
             </div>
 
             {/* Avg Temp */}
-            <div className="flex items-center space-x-1.5 bg-neutral-100 px-3 py-1 rounded-full font-mono">
+            <div className="flex items-center space-x-1.5 bg-neutral-100 px-3 py-1 rounded-full tabular-nums">
               <span className="text-neutral-500 font-sans">
                 Suhu Jalan {activeCity === 'surabaya' ? 'Surabaya' : 'DKI'}:
               </span>
@@ -486,7 +486,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                 <span className="text-neutral-500">Terbersih:</span>
                 <span className="font-bold text-neutral-900">{cityOverview.cleanestRoad.name.split('(')[0].trim()}</span>
-                <span className="font-mono font-bold text-emerald-700">({cityOverview.cleanestRoad.pm25} µg)</span>
+                <span className="font-bold tabular-nums text-emerald-700">({cityOverview.cleanestRoad.pm25} µg)</span>
               </button>
             )}
 
@@ -500,7 +500,7 @@ export const PublicMap: React.FC<PublicMapProps> = ({
                 <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
                 <span className="text-neutral-500">Paling Berpolusi:</span>
                 <span className="font-bold text-neutral-900">{cityOverview.mostPollutedRoad.name.split('(')[0].trim()}</span>
-                <span className="font-mono font-bold text-rose-700">({cityOverview.mostPollutedRoad.pm25} µg)</span>
+                <span className="font-bold tabular-nums text-rose-700">({cityOverview.mostPollutedRoad.pm25} µg)</span>
               </button>
             )}
           </div>

@@ -233,7 +233,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
               <h2 className="text-base font-bold text-neutral-900 leading-tight">
                 Simulasi Skenario Kualitas Udara
               </h2>
-              <span className="text-xs text-neutral-400 font-mono">
+              <span className="text-xs text-neutral-400 tabular-nums">
                 ({roads.length} ruas)
               </span>
             </div>
@@ -255,7 +255,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
             >
               <Radio className="w-3.5 h-3.5" />
               <span>Drift Sensor</span>
-              <span className="font-mono text-[10px] opacity-70">
+              <span className="text-[10px] opacity-70">
                 {isLiveStreaming ? 'ON' : 'OFF'}
               </span>
             </button>
@@ -411,19 +411,19 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                   <h3 className="text-sm font-semibold text-neutral-900">
                     {currentEditingRoad.name}
                   </h3>
-                  <p className="text-xs text-neutral-500 font-mono mt-0.5">
+                  <p className="text-xs text-neutral-500 mt-0.5">
                     {currentEditingRoad.area}
                   </p>
                 </div>
 
                 <div className="text-right">
                   <div 
-                    className="text-2xl font-bold font-mono tabular-nums leading-none"
+                    className="text-2xl font-bold tabular-nums leading-none"
                     style={{ color: getCategoryColor(currentEditingRoad.category) }}
                   >
                     {currentEditingRoad.pm25.toFixed(1)}
                   </div>
-                  <div className="text-[10px] text-neutral-400 font-mono mt-1">
+                  <div className="text-[10px] text-neutral-400 mt-1">
                     µg/m³ PM2.5
                   </div>
                 </div>
@@ -439,7 +439,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                       <span>Kadar Partikulat PM2.5</span>
                     </span>
                     <span 
-                      className="font-mono font-semibold tabular-nums"
+                      className="font-semibold tabular-nums"
                       style={{ color: getCategoryColor(currentEditingRoad.category) }}
                     >
                       {currentEditingRoad.pm25.toFixed(1)} µg/m³
@@ -461,7 +461,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                     }}
                     className="w-full accent-neutral-900 cursor-pointer"
                   />
-                  <div className="flex justify-between text-[10px] text-neutral-400 font-mono">
+                  <div className="flex justify-between text-[10px] text-neutral-400 tabular-nums">
                     <span>0 (Aman)</span>
                     <span>15 (Ambang Baku)</span>
                     <span>35 (Sedang)</span>
@@ -477,7 +477,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                       <Thermometer className="w-3.5 h-3.5 text-neutral-500" />
                       <span>Suhu Mikro (SHT40)</span>
                     </span>
-                    <span className="font-mono font-semibold text-neutral-800 tabular-nums">
+                    <span className="font-semibold text-neutral-800 tabular-nums">
                       {currentEditingRoad.temperature.toFixed(1)} °C
                     </span>
                   </div>
@@ -496,7 +496,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                     }}
                     className="w-full accent-neutral-900 cursor-pointer"
                   />
-                  <div className="flex justify-between text-[10px] text-neutral-400 font-mono">
+                  <div className="flex justify-between text-[10px] text-neutral-400 tabular-nums">
                     <span>22°C (Sejuk)</span>
                     <span>30°C (Normal)</span>
                     <span>38°C+ (Urban Heat Island)</span>
@@ -511,7 +511,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                         <Droplets className="w-3.5 h-3.5 text-neutral-500" />
                         <span>Kelembapan RH</span>
                       </span>
-                      <span className="font-mono font-semibold text-neutral-800">
+                      <span className="font-semibold text-neutral-800 tabular-nums">
                         {currentEditingRoad.humidity}%
                       </span>
                     </div>
@@ -536,7 +536,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                         <ShieldCheck className="w-3.5 h-3.5 text-neutral-500" />
                         <span>Armada Melintas</span>
                       </span>
-                      <span className="font-mono font-semibold text-neutral-800">
+                      <span className="font-semibold text-neutral-800 tabular-nums">
                         {currentEditingRoad.uniquePassesCount} Unit
                       </span>
                     </div>
@@ -650,7 +650,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                     max="150"
                     value={newRoadPM25}
                     onChange={(e) => setNewRoadPM25(Number(e.target.value))}
-                    className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-neutral-900 font-mono font-medium focus:outline-none focus:border-neutral-900 shadow-xs"
+                    className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-neutral-900 font-medium tabular-nums focus:outline-none focus:border-neutral-900 shadow-xs"
                   />
                 </div>
               </div>
@@ -665,7 +665,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                     step="0.5"
                     value={newRoadTemp}
                     onChange={(e) => setNewRoadTemp(Number(e.target.value))}
-                    className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-neutral-900 font-mono font-medium focus:outline-none focus:border-neutral-900 shadow-xs"
+                    className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-neutral-900 font-medium tabular-nums focus:outline-none focus:border-neutral-900 shadow-xs"
                   />
                 </div>
 
@@ -677,7 +677,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
                     type="number"
                     value={newRoadHumidity}
                     onChange={(e) => setNewRoadHumidity(Number(e.target.value))}
-                    className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-neutral-900 font-mono font-medium focus:outline-none focus:border-neutral-900 shadow-xs"
+                    className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-neutral-900 font-medium tabular-nums focus:outline-none focus:border-neutral-900 shadow-xs"
                   />
                 </div>
               </div>
@@ -696,7 +696,7 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
 
         {/* Footer (Quiet Utility) */}
         <div className="px-5 py-3 border-t border-neutral-200/80 bg-neutral-50 flex items-center justify-between text-xs">
-          <span className="text-neutral-400 font-mono text-[11px]">
+          <span className="text-neutral-400 text-[11px]">
             Data tersinkron otomatis ke peta dan rute
           </span>
 

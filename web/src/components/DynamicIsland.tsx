@@ -45,8 +45,8 @@ export const DynamicIsland: React.FC<DynamicIslandProps> = ({ driver, onToggleAn
               <Bike className="w-3.5 h-3.5 text-neutral-400" />
               <span className="text-[11px] font-medium tracking-tight">Telemetri</span>
             </div>
-            <div className="flex items-center space-x-1.5 font-mono">
-              <span className="text-[11px] font-medium tabular-nums text-white">6.2 km</span>
+            <div className="flex items-center space-x-1.5 tabular-nums">
+              <span className="text-[11px] font-medium text-white">6.2 km</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
             </div>
           </div>
@@ -69,7 +69,7 @@ export const DynamicIsland: React.FC<DynamicIslandProps> = ({ driver, onToggleAn
               </div>
               <div className="text-right">
                 <div className="text-[11px] text-neutral-400">Tarif</div>
-                <div className="text-[12px] font-mono font-medium text-emerald-400">+Rp120/km</div>
+                <div className="text-[12px] tabular-nums font-medium text-emerald-400">+Rp120/km</div>
               </div>
             </div>
 
@@ -79,7 +79,7 @@ export const DynamicIsland: React.FC<DynamicIslandProps> = ({ driver, onToggleAn
                   <Wind className="w-3 h-3 text-neutral-400" />
                   <span>SPS30 PM2.5</span>
                 </div>
-                <div className="text-[14px] font-semibold text-white tabular-nums font-mono mt-0.5">
+                <div className="text-[14px] font-semibold text-white tabular-nums mt-0.5">
                   {driver.isSimulatingAnomaly ? '38.4' : '18.2'} <span className="text-[10px] font-normal text-neutral-400">µg/m³</span>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export const DynamicIsland: React.FC<DynamicIslandProps> = ({ driver, onToggleAn
                   <BatteryMedium className="w-3 h-3 text-neutral-400" />
                   <span>LiFePO4</span>
                 </div>
-                <div className="text-[14px] font-semibold text-white tabular-nums font-mono mt-0.5">
+                <div className="text-[14px] font-semibold text-white tabular-nums mt-0.5">
                   {driver.batteryPercentage}% <span className="text-[10px] font-normal text-neutral-400">~14 jam</span>
                 </div>
               </div>
