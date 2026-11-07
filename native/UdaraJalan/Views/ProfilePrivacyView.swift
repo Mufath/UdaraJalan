@@ -3,6 +3,7 @@
 //  UdaraJalan
 //
 //  Created for UdaraJalan Mobile Native Clean Mobility & Air Quality Sensing.
+//  Design Standards: Native Clean System Guidelines (DESIGN.md / DESIGN_SYSTEM.md)
 //
 
 import SwiftUI
@@ -107,6 +108,35 @@ public struct ProfilePrivacyView: View {
                     NavigationLink("Sertifikasi Sensor MCERTS Sensirion") {}
                     NavigationLink("Ketentuan Insentif & Anti-Cheat Engine") {}
                     NavigationLink("Kebijakan Retensi Data (14 Hari Raw Audit)") {}
+                }
+                
+                // Seksi Identitas Resmi Platform UdaraJalan
+                Section("Tentang Platform") {
+                    HStack(spacing: 12) {
+                        Image(systemName: "scooter")
+                            .font(.system(size: 22))
+                            .foregroundStyle(Color(hex: "2c9f7d"))
+                            .frame(width: 44, height: 44)
+                            .background(Color(hex: "146178").opacity(0.12))
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack(spacing: 0) {
+                                Text("Udara")
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(hex: "146178"))
+                                Text("Jalan")
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(hex: "2c9f7d"))
+                            }
+                            .font(.headline)
+                            
+                            Text("Versi 1.0.0 (Native Clean Architecture)")
+                                .font(.caption2)
+                                .foregroundStyle(Color(uiColor: .secondaryLabel))
+                        }
+                    }
+                    .padding(.vertical, 4)
                 }
             }
             .navigationTitle("Profil & Privasi")

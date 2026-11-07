@@ -342,6 +342,49 @@ export const ProfilePrivacy: React.FC<ProfilePrivacyProps> = ({ driver }) => {
 
       </div>
 
+      {/* ========================================================
+          GRID ROW 3: Tentang Platform & Identitas Resmi UdaraJalan
+         ======================================================== */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="md:col-span-12 flex flex-col">
+          <span className="widget-overline mb-1.5">
+            <Radio className="w-3 h-3 text-neutral-400" />
+            Platform & Identitas Resmi
+          </span>
+          <div className="ref-card p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center space-x-5">
+              <div className="w-20 h-20 rounded-2xl bg-white border border-neutral-200/80 p-2 flex items-center justify-center shadow-xs shrink-0">
+                <img 
+                  src="/logo.png" 
+                  alt="Logo UdaraJalan" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div>
+                <div className="flex items-center font-brand font-extrabold text-xl tracking-tight">
+                  <span className="text-[#146178]">Udara</span>
+                  <span className="text-[#2c9f7d]">Jalan</span>
+                </div>
+                <p className="text-xs text-neutral-500 mt-1 max-w-md leading-relaxed">
+                  Platform pemantauan kualitas udara hiper-lokal real-time berbasis armada motor listrik (EV crowdsensing) di DKI Jakarta & Surabaya.
+                </p>
+                <div className="flex items-center space-x-2 mt-2 text-[11px] text-neutral-400">
+                  <span>Versi 1.0.0 (Native Clean Architecture)</span>
+                  <span>•</span>
+                  <span>UU PDP No. 27/2022 Patuh</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex sm:flex-col items-center sm:items-end gap-2 shrink-0">
+              <span className="px-3.5 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200/80 rounded-full text-xs font-bold">
+                Jejaring Sensor Bergerak
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };

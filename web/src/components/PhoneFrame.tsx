@@ -37,15 +37,20 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
       <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-neutral-200/60 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
           
-          {/* Brand Logo with Colorful Dot */}
+          {/* Official UdaraJalan Brand Logo */}
           <div className="flex items-center space-x-2.5 shrink-0">
-            <div className="w-8 h-8 rounded-xl bg-neutral-900 text-white flex items-center justify-center font-bold font-brand text-sm shadow-xs">
-              UJ
+            <div className="w-9 h-9 rounded-2xl bg-white border border-neutral-200/80 p-0.5 flex items-center justify-center shadow-xs overflow-hidden">
+              <img 
+                src="/logo-icon.png" 
+                alt="UdaraJalan Emblem" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
-              <span className="font-brand font-bold text-[17px] tracking-tight text-neutral-900 block leading-tight">
-                UdaraJalan
-              </span>
+              <div className="flex items-center font-brand font-bold text-[17px] tracking-tight leading-tight">
+                <span className="text-[#146178]">Udara</span>
+                <span className="text-[#2c9f7d]">Jalan</span>
+              </div>
               <span className="hidden sm:inline-block text-[10px] text-neutral-400 font-medium">
                 Pemantauan Kualitas Udara
               </span>

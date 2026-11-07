@@ -226,20 +226,25 @@ export const DataStudioModal: React.FC<DataStudioModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-neutral-900/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div className="bg-white w-full max-w-2xl rounded-[28px] shadow-2xl border border-neutral-200/90 flex flex-col max-h-[90vh] overflow-hidden">
         
-        {/* Header (Quiet Chrome) */}
+        {/* Header (Quiet Chrome with Official Logo Emblem) */}
         <div className="px-6 py-4 border-b border-neutral-200/80 flex items-center justify-between bg-white">
-          <div>
-            <div className="flex items-center space-x-2">
-              <h2 className="text-base font-bold text-neutral-900 leading-tight">
-                Simulasi Skenario Kualitas Udara
-              </h2>
-              <span className="text-xs text-neutral-400 tabular-nums">
-                ({roads.length} ruas)
-              </span>
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-neutral-50 border border-neutral-200/80 p-1 flex items-center justify-center shrink-0">
+              <img src="/logo-icon.png" alt="UdaraJalan" className="w-full h-full object-contain" />
             </div>
-            <p className="text-xs text-neutral-500 mt-0.5">
-              Uji respons peta, rute rendah polusi, dan telemetri sensor terhadap kondisi lapangan
-            </p>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h2 className="text-base font-bold text-neutral-900 leading-tight">
+                  Simulasi Skenario Kualitas Udara
+                </h2>
+                <span className="text-xs text-neutral-400 tabular-nums">
+                  ({roads.length} ruas)
+                </span>
+              </div>
+              <p className="text-xs text-neutral-500 mt-0.5">
+                Uji respons peta, rute rendah polusi, dan telemetri sensor terhadap kondisi lapangan
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center space-x-2">
