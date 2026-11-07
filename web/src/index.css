@@ -42,20 +42,20 @@ body {
 
 /* Custom squircle smoothing */
 .squircle-card {
-  border-radius: 28px;
+  border-radius: 24px;
 }
 
-/* Reference-inspired interactive cards */
+/* Reference-inspired interactive cards (Clean Surface #FFFFFF per DESIGN.md) */
 .ref-card {
   background: #ffffff;
-  border-radius: 28px;
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ref-card:hover {
-  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.07), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
 }
 
 /* Muted Category Overline above or inside widgets */

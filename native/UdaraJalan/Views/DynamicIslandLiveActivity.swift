@@ -3,6 +3,7 @@
 //  UdaraJalan
 //
 //  Created for UdaraJalan Mobile Native Clean Mobility & Air Quality Sensing.
+//  Design Standards: Native Clean System Guidelines (DESIGN.md / DESIGN_SYSTEM.md)
 //
 
 import ActivityKit
@@ -95,7 +96,7 @@ public struct UdaraJalanLiveActivityWidget: Widget {
                             .foregroundStyle(Color(uiColor: .systemGreen))
                         VStack(alignment: .leading, spacing: 1) {
                             Text("\(String(format: "%.1f", context.state.validatedKm)) Km")
-                            .monospacedDigit()
+                                .monospacedDigit()
                                 .font(.headline)
                                 .fontWeight(.bold)
                             Text("+Rp120/km")
@@ -107,15 +108,30 @@ public struct UdaraJalanLiveActivityWidget: Widget {
                 }
                 
                 DynamicIslandExpandedRegion(.trailing) {
-                    VStack(alignment: .trailing, spacing: 1) {
-                        Text("\(Int(context.state.currentPM25)) µg/m³")
-                            .monospacedDigit()
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color(uiColor: .systemGreen))
-                        Text("Sensirion Normal")
+                    HStack(spacing: 8) {
+                        VStack(alignment: .trailing, spacing: 1) {
+                            Text("\(Int(context.state.currentPM25)) µg/m³")
+                                .monospacedDigit()
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(
+                                    context.state.currentPM25 <= 15.0 ? Color(uiColor: .systemGreen) :
+                                    (context.state.currentPM25 <= 35.4 ? Color(uiColor: .systemOrange) : Color(uiColor: .systemRed))
+                                )
+                            Text(
+                                context.state.currentPM25 <= 15.0 ? "Mutu: Baik" :
+                                (context.state.currentPM25 <= 35.4 ? "Mutu: Sedang" : "Tidak Sehat")
+                            )
                             .font(.caption2)
                             .foregroundStyle(.secondary)
+                        }
+                        
+                        AirQualityAvatarView(
+                            category: context.state.currentPM25 <= 15.0 ? .good :
+                                      (context.state.currentPM25 <= 35.4 ? .moderate : .unhealthy),
+                            size: 26,
+                            isDarkContrast: false
+                        )
                     }
                     .padding(.trailing, 8)
                 }
@@ -144,9 +160,9 @@ public struct UdaraJalanLiveActivityWidget: Widget {
                 Image(systemName: "scooter")
                     .foregroundStyle(Color(uiColor: .systemGreen))
             } compactTrailing: {
-                // Compact Trailing: Jarak Km Valid
-                HStack(spacing: 2) {
-                    Text("\(String(format: "%.1f", context.state.validatedKm))")
+                // Compact Trailing: Jarak Km Valid dengan Titik Hijau Aktif
+                HStack(spacing: 3) {
+                    Text("\(String(format: "%.1f", context.state.validatedKm)) Km")
                         .monospacedDigit()
                         .font(.caption2)
                         .fontWeight(.bold)

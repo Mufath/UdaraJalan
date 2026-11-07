@@ -3,6 +3,7 @@
 //  UdaraJalan
 //
 //  Created for UdaraJalan Mobile Native Clean Mobility & Air Quality Sensing.
+//  Design Standards: Native Clean System Guidelines (DESIGN.md / DESIGN_SYSTEM.md)
 //
 
 import SwiftUI
@@ -64,7 +65,7 @@ public struct PublicMapView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(Color(uiColor: .secondaryLabel))
                     
-                    Text("Cari ruas jalan atau stasiun transit...")
+                    Text("Cari ruas jalan atau area...")
                         .font(.subheadline)
                         .foregroundStyle(Color(uiColor: .secondaryLabel))
                     
@@ -76,7 +77,7 @@ public struct PublicMapView: View {
                 .padding(.horizontal, 14)
                 .padding(.vertical, 12)
                 .background(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .shadow(color: .black.opacity(0.08), radius: 8, y: 3)
                 
                 // Segmented Control Filter Layer (PM2.5 vs Suhu Mikro)
@@ -92,12 +93,13 @@ public struct PublicMapView: View {
             .padding(.horizontal, 16)
             .padding(.top, 8)
         }
-        // Native Bottom Sheet (UISheetPresentationController Style)
+        // Native Bottom Sheet with 24pt corner radius per DESIGN.md & DESIGN_SYSTEM.md
         .sheet(isPresented: $viewModel.isSheetPresented) {
             if let segment = viewModel.selectedSegment {
                 RoadDetailSheetView(segment: segment, routeComparison: viewModel.routeComparison)
                     .presentationDetents([.fraction(0.38), .large])
                     .presentationDragIndicator(.visible)
+                    .presentationCornerRadius(24)
             }
         }
         .onAppear {
@@ -108,139 +110,103 @@ public struct PublicMapView: View {
     }
 }
 
-// MARK: - Lembar Bottom Sheet Detail Ruas & Rute Rendah Polusi
+// MARK: - Lembar Bottom Sheet Detail Ruas & Rute Rendah Polusi (24pt Top Radius)
 struct RoadDetailSheetView: View {
     let segment: RoadSegment
     let routeComparison: NavigationRouteComparison?
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                // Header Nama Jalan & Kategori Kualitas Udara
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(segment.name)
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color(uiColor: .label))
-                        
-                        Text("Diperbarui \(segment.ageInMinutes) menit lalu dari \(segment.uniquePassesCount) armada")
-                            .font(.caption)
-                            .foregroundStyle(Color(uiColor: .secondaryLabel))
-                    }
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .trailing, spacing: 2) {
-                        Text("\(String(format: "%.1f", segment.currentPM25))")
-                            .monospacedDigit()
-                            .font(.system(size: 28, weight: .bold, design: .default))
-                            .foregroundStyle(Color(hex: segment.category.hexColor))
-                        Text("µg/m³ PM2.5")
-                            .font(.caption2)
-                            .foregroundStyle(Color(uiColor: .secondaryLabel))
-                    }
-                }
+            VStack(spacing: 16) {
+                // Hero AQI Card dengan Avatar Ekspresi & Trio Mikroklimat
+                HeroAqiCardView(segment: segment)
                 
-                // Indikator Transparansi: Badge Data Indikatif + Confidence Score
-                HStack(spacing: 8) {
-                    // Badge Data Indikatif (Kepatuhan Regulasi & Standar)
-                    HStack(spacing: 4) {
-                        Image(systemName: "info.circle.fill")
-                            .font(.system(size: 11))
-                        Text("Data Indikatif")
-                            .font(.caption2)
-                            .fontWeight(.semibold)
-                    }
-                    .foregroundStyle(Color(uiColor: .secondaryLabel))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color(uiColor: .systemGroupedBackground))
-                    .clipShape(Capsule())
-                    
-                    // Confidence Score Pill (Tinggi / Sedang / Rendah)
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(Color(hex: segment.confidenceScore.badgeColorHex))
-                            .frame(width: 6, height: 6)
-                        Text(segment.confidenceScore.rawValue)
-                            .font(.caption2)
-                            .fontWeight(.semibold)
-                    }
-                    .foregroundStyle(Color(hex: segment.confidenceScore.badgeColorHex))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color(hex: segment.confidenceScore.badgeColorHex).opacity(0.12))
-                    .clipShape(Capsule())
-                }
+                // Prakiraan Per Jam & Harian
+                HourlyForecastBarView(segment: segment)
                 
                 Divider()
                 
                 // Card Perbandingan: Rute Rendah Polusi (Low-Exposure Route)
                 if let comparison = routeComparison {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Alternatif Rute Sehat Komuter")
+                        Text("Opsi Rute Rendah Paparan")
                             .font(.subheadline)
-                            .fontWeight(.semibold)
+                            .fontWeight(.bold)
                             .foregroundStyle(Color(uiColor: .label))
                         
-                        // Opsi Rute Bersih (Clean Air Route)
-                        VStack(alignment: .leading, spacing: 8) {
+                        // Perbandingan Tabel Langsung Rute Tercepat vs Rute Bersih Rekomendasi
+                        VStack(spacing: 8) {
+                            // 1. Rute Tercepat
                             HStack {
-                                Text(comparison.cleanAirRoute.title)
-                                    .font(.subheadline)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color(uiColor: .systemGreen))
-                                
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Rute Tercepat: \(comparison.fastestRoute.durationMinutes) Menit")
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                    Text("Paparan PM2.5: \(Int(comparison.fastestRoute.averagePM25)) µg/m³ • \(String(format: "%.1f", comparison.fastestRoute.distanceKm)) km")
+                                        .font(.caption)
+                                        .foregroundStyle(Color(uiColor: .secondaryLabel))
+                                }
                                 Spacer()
-                                
-                                Text(comparison.cleanAirRoute.badgeText)
+                                Text("Jalur Utama")
                                     .font(.caption2)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(Color(uiColor: .systemGreen))
+                                    .foregroundStyle(Color(uiColor: .secondaryLabel))
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
-                                    .background(Color(uiColor: .systemGreen).opacity(0.12))
+                                    .background(Color(uiColor: .tertiarySystemGroupedBackground))
                                     .clipShape(Capsule())
                             }
+                            .padding(12)
+                            .background(Color(uiColor: .secondarySystemGroupedBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                             
-                            HStack(spacing: 16) {
-                                Label("\(comparison.cleanAirRoute.durationMinutes) Menit", systemImage: "clock")
-                                    .font(.caption)
-                                Label("\(String(format: "%.1f", comparison.cleanAirRoute.distanceKm)) Km", systemImage: "point.topleft.down.curvedto.point.bottomright.up")
-                                    .font(.caption)
-                                Label("\(Int(comparison.cleanAirRoute.averagePM25)) µg/m³", systemImage: "wind")
-                                    .font(.caption)
-                                    .foregroundStyle(Color(uiColor: .systemGreen))
-                            }
-                            .foregroundStyle(Color(uiColor: .secondaryLabel))
-                            
-                            Text(comparison.cleanAirRoute.pathDescription)
-                                .font(.caption)
-                                .foregroundStyle(Color(uiColor: .secondaryLabel))
-                            
-                            Button(action: {}) {
+                            // 2. Rute Bersih Rekomendasi
+                            VStack(alignment: .leading, spacing: 8) {
                                 HStack {
-                                    Image(systemName: "arrow.triangle.turn.up.right.diamond.fill")
-                                    Text("Navigasi Jalur Rendah Polusi")
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("Rute Bersih Rekomendasi: \(comparison.cleanAirRoute.durationMinutes) Menit")
+                                            .font(.subheadline)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(Color(uiColor: .systemGreen))
+                                        Text("Paparan: \(Int(comparison.cleanAirRoute.averagePM25)) µg/m³ • Menurunkan dosis inhalasi 62%")
+                                            .font(.caption)
+                                            .fontWeight(.medium)
+                                            .foregroundStyle(Color(uiColor: .secondaryLabel))
+                                    }
+                                    Spacer()
+                                    Text(comparison.cleanAirRoute.badgeText)
+                                        .font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color(uiColor: .systemGreen))
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 2)
+                                        .background(Color(uiColor: .systemGreen).opacity(0.12))
+                                        .clipShape(Capsule())
                                 }
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                                .background(Color(uiColor: .systemGreen))
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                
+                                Button(action: {}) {
+                                    HStack {
+                                        Image(systemName: "arrow.triangle.turn.up.right.diamond.fill")
+                                        Text("Ikuti Rute Rendah Polusi")
+                                    }
+                                    .font(.subheadline)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(Color(uiColor: .systemBlue))
+                                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                                }
                             }
+                            .padding(14)
+                            .background(Color(uiColor: .secondarySystemGroupedBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                         }
-                        .padding(14)
-                        .background(Color(uiColor: .systemGroupedBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
                 }
             }
             .padding(20)
         }
+        .background(Color(uiColor: .systemGroupedBackground))
     }
 }
 

@@ -5,15 +5,21 @@
 
 ---
 
-## 1. Pedoman Viso-Spasial & Bahasa Desain
+## 1. Pedoman Viso-Spasial & Bahasa Desain (Apple iOS 18 Modular Bento Grid)
 
-### 1.1 Estetika CleanTech Minimalist
-Antarmuka UdaraJalan didesain untuk lingkungan kerja mobilitas tinggi dengan fokus visual yang cepat dipahami (*glanceable*), bersih, dan tidak membebani konsentrasi mitra saat berkendara:
-* **Prinsip Anti-Slop Mutlak:**
-  - Latar belakang murni **Light Mode Standar** (`#F2F2F7` untuk *System Grouped Background* dan `#FFFFFF` untuk *Card Surface*).
-  - Tidak ada aksen neon cyberpunk, tidak ada gradasi gelap bertingkat, tidak ada border menyala (*no glowing edges*), dan tidak ada tumpukan badge (*no badge soup*).
+### 1.1 Estetika Modular Widget Board (Bento Grid Style)
+Antarmuka UdaraJalan didesain mengadopsi standar **Apple iOS 18 Modular Widget Board (Bento Grid Style)** sesuai standar Apple Health & Weather Widget (seperti referensi iOS Native Dashboard). Desain berfokus pada visual yang cepat dipahami (*glanceable*), bernuansa native, dan menghindari kesan SaaS generik.
+
+* **Struktur Kartu Modular (2 Tipe Kartu):**
+  1. **Atmospheric / Hero Widgets (Full Color):**
+     - **Widget Cuaca:** WAJIB menggunakan latar Rich iOS Blue (`#0A84FF` / `#1D70B8`) dengan teks putih bersih (seperti Widget Apple Weather resmi).
+     - **Widget Status Utama Sensor / PM2.5:** Latar Rich System Color dinamis (Mint Green `#34C759` jika baik, Orange `#FF9500` jika sedang, Red `#FF3B30` jika buruk) dengan teks kontras tinggi.
+  2. **Data & Navigasi Widgets (Clean Surface):**
+     - **Widget Trajektori Misi, Grafik Poin, dan Navigasi:** Menggunakan latar belakang murni White (`#FFFFFF`) dengan bayangan halus (`box-shadow: 0 4px 20px rgba(0,0,0,0.04)`).
+* **Geometri & Material:**
+  - **Corner Radius:** Menggunakan Continuous Squircle `22px` - `26px` untuk tiap modul widget.
+  - **Inner Elements:** Sub-elemen di dalam Hero Widget menggunakan warna kontras semi-transparan (misal: *white with 15% opacity* `rgba(255, 255, 255, 0.15)` untuk background mini-badge / pill di dalam kartu biru/hijau).
   - Vibrancy & translucency (`.ultraThinMaterial`) dibatasi hanya pada bilah navigasi atas (*Navigation Bar*) dan bilah tab bawah (*Tab Bar*), memberikan efek kedalaman (*depth layering*) saat konten discroll di bawahnya.
-* **Geometri Native Squircle:** Seluruh kartu (*card*) dan tombol menggunakan kelengkungan berkelanjutan (*Continuous Curve / Squircle*) dengan radius 16pt hingga 20pt.
 
 ### 1.2 Skema Warna Adaptif (System Palette)
 
@@ -22,25 +28,30 @@ Antarmuka UdaraJalan didesain untuk lingkungan kerja mobilitas tinggi dengan fok
 │ Token Warna      │ Nilai Hex       │ Peran Fungsional                          │
 ├──────────────────┼─────────────────┼───────────────────────────────────────────┤
 │ System Background│ #F2F2F7         │ Latar belakang utama Inset Grouped List   │
-│ Card Surface     │ #FFFFFF         │ Latar belakang Inset Card konten          │
-│ System Blue      │ #007AFF         │ Aksi utama (CTA), tombol aktif            │
-│ System Green     │ #34C759         │ Indikator Lolos Anti-Curang, Poin, Baik   │
-│ System Orange    │ #FF9500         │ Misi Ruas Heksagon (2x Bonus), Sedang     │
-│ System Red       │ #FF3B30         │ Peringatan Anomali, Kualitas Tidak Sehat  │
+│ Clean Surface    │ #FFFFFF         │ Latar belakang Data & Navigasi Widgets    │
+│ Hero Weather Blue│ #0A84FF /1D70B8 │ Latar belakang Widget Cuaca (Apple Weather)│
+│ System Green     │ #34C759         │ Lolos Anti-Curang, Hero PM2.5 Baik        │
+│ System Orange    │ #FF9500         │ Misi Heksagon 2x, Hero PM2.5 Sedang       │
+│ System Red       │ #FF3B30         │ Peringatan Anomali, Hero PM2.5 Buruk      │
 │ System Purple    │ #AF52DE         │ Kualitas Sangat Tidak Sehat / Bahaya      │
-│ Label Primary    │ #000000 (85%)   │ Judul halaman, angka metrik utama         │
-│ Label Secondary  │ #3C3C43 (60%)   │ Subheadline, deskripsi, waktu telemetri   │
+│ System Blue      │ #007AFF         │ Aksi utama (CTA), tombol aktif            │
+│ Hero Text Primary│ #FFFFFF         │ Teks putih bersih pada Hero Widgets       │
+│ Label Primary    │ #000000 (85%)   │ Judul halaman, teks pada Clean Surface    │
+│ Label Secondary  │ #3C3C43 (60%)   │ Subheadline, deskripsi pada Clean Surface │
 │ Separator        │ rgba(60,60,67)  │ Garis pemisah hairline 0.5pt              │
 └──────────────────┴─────────────────┴───────────────────────────────────────────┘
 ```
 
 ### 1.3 Tipografi Hierarkis (Native System Typography)
 * **Large Title (34pt Bold):** Digunakan untuk judul utama halaman seperti "Ringkasan Mitra".
-* **Metric Display (34pt Bold `tabular-nums`):** Menampilkan angka poin (misal `14.850 Pts`) dan akumulasi kilometer. Angka tidak bergoyang saat diperbarui.
+* **Hero Metric Display (32pt - 40pt Bold `tabular-nums`):** Angka suhu dan PM2.5 utama pada Hero Widgets dengan alignment bersih.
+* **Metric Display (34pt Bold `tabular-nums`):** Menampilkan angka poin (misal `14.850 Pts`) dan akumulasi kilometer pada Data Widgets.
 * **Headline (17pt Semibold):** Judul kartu dan subseksi utama.
 * **Body (17pt Regular):** Teks paragraf dan informasi kontekstual.
 * **Subheadline (15pt Regular):** Keterangan sekunder di bawah metrik.
 * **Footnote & Caption (13pt - 11pt Regular):** Waktu sinkronisasi terakhir, ID perangkat, dan label regulasi.
+* **Mini Weather Forecast Strip:** Format kapsul vertikal soft grey/white di bagian bawah widget cuaca.
+* **Tata Letak Grid:** Susunan bento 2 kolom & 3 kolom yang fleksibel, konsisten dengan jarak antar widget (*gap*) `12px` - `16px`.
 
 ---
 ## 1.4. Tipografi (Typography System)
@@ -87,7 +98,7 @@ Dalam konteks mobilitas tinggi armada motor listrik di jalan raya DKI Jakarta, m
 
 ## 2. Spesifikasi Skrin Utama (Key Screens Wireframe)
 
-### 2.1 Dashboard Mitra (Driver View - Health & Goal Metric Style)
+### 2.1 Dashboard Mitra (Driver View - Apple iOS 18 Bento Grid Style)
 
 ```
 +--------------------------------------------------------------+
@@ -97,30 +108,39 @@ Dalam konteks mobilitas tinggi armada motor listrik di jalan raya DKI Jakarta, m
 | Bang Rian (EV Fleet #B-4819-SXX)                             |
 | Perangkat Clip-on: [x] Terhubung  * Baterai 84%              |
 |--------------------------------------------------------------|
-| [ CARD CAPAIAN HARIAN (Goal Style)                         ] |
-| [ Poin Hari Ini                                            ] |
-| [ 14.850 Pts                         (Target: 20.000 Pts)  ] |
-| [ Equivalen: Rp1.782.000             74.2% Tercapai        ] |
-| [ [====================================---------]          ] |
-| [ Jarak: 38.4 Km Valid   *   Laju Rata-rata: Rp120/km      ] |
-|--------------------------------------------------------------|
-| [ STATUS ANTI-CHEAT ENGINE & SENSOR                        ] |
-| [ (V) Validasi Anti-Curang: Lolos            [Uji Anomali] ] |
-| [ Kecepatan: 34 km/h  *  Vibrasi RMS: 0.28g  *  GNSS: 1 Hz ] |
-| [ Sensor SPS30: Normal (PM2.5: 18.2 ug/m3)                 ] |
-|--------------------------------------------------------------|
-| [ MISI RUAS AKTIF (H3 Hexagonal Multiplier 2x)             ] |
-| [ +--------------------------------------------------------+ ] |
-| [ | [Mini Map Vector View]                                 | ] |
-| [ | Jalur Oranye: Koridor Sudirman-Thamrin (H3 Hex Zone)   | ] |
-| [ | Belum Terdata > 60 Menit    *    Radius: 500m          | ] |
-| [ +--------------------------------------------------------+ ] |
-| [ Bonus Poin: 2x Lipat (Rp240/km)                          ] |
-| [ [ Tombol: Mulai Navigasi Misi Ruas                     ] ] |
-|--------------------------------------------------------------|
-| [ STATUS TELEMETRI OFFLINE & KESEHATAN SENSOR              ] |
-| [ Buffer Lokal: 0 Pending (Tersinkron)                     ] |
-| [ Pembersihan Optik Laser: 4.8 Jam Menuju Siklus Berikutnya] |
+| [ MODULAR BENTO GRID (2 & 3 Col, Gap: 12-16px)             ] |
+|                                                              |
+| +----------------------------+ +---------------------------+ |
+| | [HERO AQI - SQUIRCLE 24px] | | [HERO WEATHER - #0A84FF]  | |
+| | Rich System Color (#34C759)| | Rich iOS Blue             | |
+| | PM2.5: 18 ug/m3 (36pt)     | | Suhu: 32 C (36pt Bold)    | |
+| | Teks Putih Kontras         | | Cuaca Cerah Berawan       | |
+| | [Badge: Udara Bersih (15%)]| | [Capsule Forecast Strip]  | |
+| +----------------------------+ +---------------------------+ |
+|                                                              |
+| +----------------------------------------------------------+ |
+| | [DATA WIDGET: CAPAIAN POIN & JARAK - CLEAN WHITE #FFFFFF]| |
+| | box-shadow: 0 4px 20px rgba(0,0,0,0.04) • Squircle 24px  | |
+| | 14.850 Pts (34pt Bold) • Target: 74% (20.000 Pts)        | |
+| | Equivalen: Rp1.782.000 • Jarak: 38.4 Km Valid            | |
+| | [====================================---------]          | |
+| +----------------------------------------------------------+ |
+|                                                              |
+| +----------------------------+ +---------------------------+ |
+| | [ANTI-CHEAT ENGINE - WHITE]| | [SENSOR DIAGNOSTICS - WHT]| |
+| | (V) Validasi: Lolos        | | SPS30: Normal (18 ug/m3)  | |
+| | Speed: 34 km/h • RMS 0.28g | | SHT40: 31 C / 68% RH      | |
+| | [Uji Anomali Sensor]       | | Buffer: 0 Pending         | |
+| +----------------------------+ +---------------------------+ |
+|                                                              |
+| +----------------------------------------------------------+ |
+| | [DATA WIDGET: MISI RUAS AKTIF (H3 Hex Multiplier 2x)]    | |
+| | Clean Surface White (#FFFFFF) • Squircle 24px            | |
+| | [Mini Map Vector View]                                   | |
+| | Jalur Oranye: Koridor Sudirman-Thamrin (H3 Hex Zone)     | |
+| | Bonus Poin: 2x Lipat (Rp240/km) • Radius: 500m           | |
+| | [ Tombol: Mulai Navigasi Misi Ruas                     ] | |
+| +----------------------------------------------------------+ |
 |--------------------------------------------------------------|
 | [TAB BAR: (Steeringwheel)   (Map)   (Wallet)   (Person)    ] |
 +--------------------------------------------------------------+

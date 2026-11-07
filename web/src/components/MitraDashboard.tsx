@@ -34,6 +34,8 @@ import {
 import { DriverState, H3Mission } from '../types';
 import { MiniH3Map } from './MiniH3Map';
 import { StackedBars } from './StackedBars';
+import { AirQualityAvatar } from './AirQualityAvatar';
+import { ShiftExposureCard } from './ShiftExposureCard';
 
 interface MitraDashboardProps {
   driver: DriverState;
@@ -151,44 +153,53 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
             <Gauge className="w-3 h-3 text-neutral-400" />
             Telemetri Laser Partikulat (SPS30)
           </span>
-          <div className="rounded-[28px] p-5 bg-[#059669] text-white shadow-lg shadow-emerald-950/10 flex flex-col justify-between flex-1 transition-all duration-300">
+          <div className="rounded-[24px] p-5 bg-[#34C759] text-white shadow-lg shadow-emerald-950/10 flex flex-col justify-between flex-1 transition-all duration-300">
             <div>
               {/* Sensor Header + Status Pill */}
-              <div className="flex items-center space-x-3 mb-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-inner shrink-0">
-                  <Wind className="w-5 h-5 text-white" />
+              <div className="flex items-center justify-between mb-3.5">
+                <div className="flex items-center space-x-3 min-w-0">
+                  <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-inner shrink-0">
+                    <Wind className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-bold text-white truncate">
+                      Sensirion SPS30
+                    </div>
+                    <div className="text-xs text-white/90 truncate">
+                      Laser Optical Particle Counter
+                    </div>
+                    <div className="flex items-center space-x-1.5 mt-1">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                      <span className="text-[10px] text-white/90 font-bold tabular-nums">
+                        1 Hz Real-time Stream
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-bold text-white truncate">
-                    Sensirion SPS30
-                  </div>
-                  <div className="text-xs text-emerald-100 truncate">
-                    Laser Optical Particle Counter
-                  </div>
-                  <div className="flex items-center space-x-1.5 mt-1">
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span className="text-[10px] text-emerald-100 font-bold tabular-nums">
-                      1 Hz Real-time Stream
-                    </span>
-                  </div>
-                </div>
+
+                <span className="px-2.5 py-1 bg-white/20 backdrop-blur-md text-white rounded-full text-[10px] font-bold shrink-0">
+                  MCERTS UK
+                </span>
               </div>
 
-              {/* Primary Value: PM2.5 Tabular Figure */}
+              {/* Primary Value: Kontainer Kondisi Paparan PM2.5 (Avatar Dampak Paparan bersanding dengan metrik PM2.5) */}
               <div className="bg-white/15 backdrop-blur-sm p-3.5 rounded-2xl mb-3">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] text-emerald-100 uppercase font-semibold">
-                    Konsentrasi PM2.5
+                  <span className="text-[10px] text-white/90 uppercase font-semibold">
+                    Kondisi Paparan (PM2.5)
                   </span>
                   <span className="px-2 py-0.5 bg-white/25 text-white rounded-md text-[10px] font-bold">
                     Sedang (Baku 15–35)
                   </span>
                 </div>
-                <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-extrabold text-white tracking-tight tabular-nums">
-                    18.2
-                  </span>
-                  <span className="text-xs font-semibold text-emerald-100">µg/m³</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-3xl font-extrabold text-white tracking-tight tabular-nums">
+                      18.2
+                    </span>
+                    <span className="text-xs font-semibold text-white/90">µg/m³</span>
+                  </div>
+                  <AirQualityAvatar category="moderate" size={36} theme="dark" className="shrink-0" />
                 </div>
 
                 {/* 4-tier PM2.5 Quality Segmented Bar */}
@@ -202,12 +213,12 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                     </div>
                     {/* Active Needle Pin at 18.2 µg/m³ */}
                     <div 
-                      className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white border-2 border-[#059669] rounded-full shadow-sm"
+                      className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white border-2 border-[#34C759] rounded-full shadow-sm"
                       style={{ left: '33%' }}
                       title="18.2 µg/m³ (Baku Mutu Ambang)"
                     />
                   </div>
-                  <div className="flex justify-between text-[9px] tabular-nums text-emerald-100 mt-1">
+                  <div className="flex justify-between text-[9px] tabular-nums text-white/90 mt-1">
                     <span>0 Baik</span>
                     <span>15 Ambang</span>
                     <span>35 Sedang</span>
@@ -219,11 +230,11 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               {/* Sub-channel readings: PM1.0 & PM10 */}
               <div className="grid grid-cols-2 gap-2 text-xs tabular-nums mb-2">
                 <div className="px-2.5 py-1.5 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-between text-white">
-                  <span className="text-[10px] text-emerald-100">PM1.0:</span>
+                  <span className="text-[10px] text-white/90">PM1.0:</span>
                   <span className="font-bold text-white">9.4 µg/m³</span>
                 </div>
                 <div className="px-2.5 py-1.5 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-between text-white">
-                  <span className="text-[10px] text-emerald-100">PM10:</span>
+                  <span className="text-[10px] text-white/90">PM10:</span>
                   <span className="font-bold text-white">24.6 µg/m³</span>
                 </div>
               </div>
@@ -231,7 +242,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
 
             {/* Self-cleaning Fan Routine */}
             <div className="flex items-center justify-between pt-2.5 border-t border-white/20">
-              <div className="text-[10px] text-emerald-100 tabular-nums">
+              <div className="text-[10px] text-white/90 tabular-nums">
                 {isCleaningFan ? (
                   <span className="text-white font-semibold animate-pulse">Membersihkan debu optik...</span>
                 ) : (
@@ -326,24 +337,24 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
           </div>
         </div>
 
-        {/* CARD 3: Kondisi Atmosfer & Cuaca (Sky-Blue Weather Card from Reference) */}
+        {/* CARD 3: Kondisi Atmosfer & Cuaca (Apple Weather Official Rich iOS Blue #0A84FF) */}
         <div className="flex flex-col">
           <span className="widget-overline mb-1.5">
             <Sun className="w-3 h-3 text-neutral-400" />
             Kondisi Atmosfer & Cuaca
           </span>
-          <div className="rounded-[28px] p-5 bg-[#0284c7] text-white shadow-lg shadow-sky-950/10 flex flex-col justify-between flex-1 transition-all duration-300">
+          <div className="rounded-[24px] p-5 bg-[#0A84FF] text-white shadow-lg shadow-blue-950/15 flex flex-col justify-between flex-1 transition-all duration-300">
             <div>
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="text-xs font-medium text-sky-100 flex items-center space-x-1">
-                    <MapPin className="w-3 h-3 text-sky-200" />
+                  <div className="text-xs font-semibold text-white/90 flex items-center space-x-1">
+                    <MapPin className="w-3 h-3 text-white/80" />
                     <span>Jakarta Pusat</span>
                   </div>
                   <div className="text-4xl font-extrabold tracking-tight mt-1 tabular-nums text-white">
                     31.2°
                   </div>
-                  <div className="text-xs text-sky-100 mt-0.5">
+                  <div className="text-xs text-white/90 mt-0.5">
                     Cerah Berawan <span className="text-white/60">•</span> RH 68%
                   </div>
                 </div>
@@ -355,7 +366,7 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
               </div>
             </div>
 
-            {/* 5-Day Forecast Grid */}
+            {/* Mini Weather Forecast Capsule Strip (Soft capsules per Apple iOS 18 standard) */}
             <div className="grid grid-cols-5 gap-1.5 pt-4 text-center">
               {[
                 { time: 'Sen', val: '18µg' },
@@ -364,8 +375,8 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                 { time: 'Kam', val: '28µg' },
                 { time: 'Jum', val: '34µg' }
               ].map((slot, i) => (
-                <div key={i} className="bg-white/15 backdrop-blur-sm rounded-xl py-2 px-1">
-                  <div className="text-[10px] text-sky-100">{slot.time}</div>
+                <div key={i} className="bg-white/15 backdrop-blur-sm rounded-2xl py-2 px-1 border border-white/10">
+                  <div className="text-[10px] text-white/80 font-medium">{slot.time}</div>
                   <div className="text-[11px] font-bold tabular-nums text-white mt-0.5">{slot.val}</div>
                 </div>
               ))}
@@ -651,6 +662,11 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
       </div>
 
       {/* ========================================================
+          PAPARAN SHIFT MITRA: JAM LINGKARAN & DOSIS KESEHATAN (IQAir Today's Exposure Style)
+         ======================================================== */}
+      <ShiftExposureCard driver={driver} shiftSeconds={shiftSeconds} />
+
+      {/* ========================================================
           GRID ROW 3: 3 Rich Technical Cards
           1. Focus Timer / Shift Monitoring Card (Dark Midnight Style from Reference)
           2. Integritas Sensor & Seismograf Getaran (Live SVG Wave)
@@ -865,9 +881,12 @@ export const MitraDashboard: React.FC<MitraDashboardProps> = ({
                       18.2 <span className="text-xs font-normal text-neutral-500">µg/m³ PM2.5</span>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <span className="text-xs font-bold text-amber-600">Sedang</span>
-                    <div className="text-[10px] text-neutral-400">Baku 15–35</div>
+                  <div className="flex items-center space-x-2 text-right">
+                    <AirQualityAvatar category="moderate" size={32} theme="light" />
+                    <div>
+                      <span className="text-xs font-bold text-amber-600">Sedang</span>
+                      <div className="text-[10px] text-neutral-400">Baku 15–35</div>
+                    </div>
                   </div>
                 </div>
 

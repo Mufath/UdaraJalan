@@ -3,6 +3,7 @@
 //  UdaraJalan
 //
 //  Created for UdaraJalan Mobile Native Clean Mobility & Air Quality Sensing.
+//  Design Standards: Native Clean System Guidelines (DESIGN.md / DESIGN_SYSTEM.md)
 //
 
 import SwiftUI
@@ -18,13 +19,13 @@ public struct WalletView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    // Card Saldo Dompet Utama (Clean Card Style)
+                    // Card Saldo Dompet Utama (Clean Surface White #FFFFFF)
                     walletBalanceCard
                     
                     // Tombol Aksi Cepat (Tarik Saldo, Tukar Voucher Servis EV)
                     quickActionGrid
                     
-                    // Rincian Riwayat Insentif Sesi Perjalanan
+                    // Rincian Riwayat Insentif Sesi Perjalanan (Clean Surface #FFFFFF)
                     tripRewardHistorySection
                 }
                 .padding(.horizontal, 16)
@@ -67,7 +68,7 @@ public struct WalletView: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Tarif Dasar")
+                    Text("Tarif Dasar Standar")
                         .font(.caption2)
                         .foregroundStyle(Color(uiColor: .secondaryLabel))
                     Text("Rp120 / km")
@@ -90,7 +91,12 @@ public struct WalletView: View {
         }
         .padding(18)
         .background(Color(uiColor: .secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .shadow(color: Color.black.opacity(0.04), radius: 20, y: 4)
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color.black.opacity(0.04), lineWidth: 1)
+        )
     }
     
     private var quickActionGrid: some View {
@@ -107,7 +113,7 @@ public struct WalletView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
                 .background(Color(uiColor: .systemBlue))
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
             
             Button(action: {}) {
@@ -120,7 +126,7 @@ public struct WalletView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
                 .background(Color(uiColor: .systemGreen).opacity(0.12))
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
         }
     }
@@ -158,7 +164,12 @@ public struct WalletView: View {
                 )
             }
             .background(Color(uiColor: .secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .shadow(color: Color.black.opacity(0.04), radius: 20, y: 4)
+            .overlay(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .stroke(Color.black.opacity(0.04), lineWidth: 1)
+            )
         }
     }
     
